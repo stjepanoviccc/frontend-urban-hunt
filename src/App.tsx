@@ -1,4 +1,4 @@
-import Wrap from "./components/Wrap";
+import Wrap from "./components/UI/Wrap";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 

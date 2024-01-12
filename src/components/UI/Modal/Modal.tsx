@@ -16,9 +16,9 @@ const Modal: React.FC<Props> = props => {
     })
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
             <Backdrop />
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md shadow-lg w-2/3 lg:w-[500px]">
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md shadow-lg w-full md:w-[500px]">
                 {props.children}
             </div>
         </div>

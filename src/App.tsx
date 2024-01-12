@@ -1,18 +1,25 @@
-import Wrap from "./components/UI/Wrap";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RootLayout from "./view/RootLayout";
+import ErrorPage from "./view/ErrorPage";
+import Home from "./view/Home";
+import Dashboard from "./view/Dashboard";
 
 const App = () => {
+  const router = createBrowserRouter([{
+    path: '/',
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'dashboard', element: <Dashboard /> },
+      { path: 'about-us', element: <p>About us</p> },
+      { path: 'contact', element: <p>contact</p> },
+    ],
+  }])
 
   return (
-    <>
-      <Navbar />
-      <Wrap>
-        <div className="min-h-[100vh]">main</div>
-      </Wrap>
-      <Footer />
-    </>
-  )
+    <RouterProvider router={router} />
+  );
 }
 
 export default App;

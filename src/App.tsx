@@ -3,6 +3,7 @@ import RootLayout from "./view/RootLayout";
 import ErrorPage from "./view/ErrorPage";
 import Home from "./view/Home";
 import Dashboard from "./view/Dashboard";
+import AboutUs from "./view/AboutUs";
 
 const App = () => {
   const router = createBrowserRouter([{
@@ -12,7 +13,7 @@ const App = () => {
     children: [
       { index: true, element: <Home /> },
       { path: 'dashboard', element: <Dashboard /> },
-      { path: 'about-us', element: <p>About us</p> },
+      { path: 'about-us', element: <AboutUs /> },
       { path: 'contact', element: <p>contact</p> },
     ],
   }])

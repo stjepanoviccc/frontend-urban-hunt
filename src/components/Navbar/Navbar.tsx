@@ -36,16 +36,16 @@ const Navbar: React.FC = () => {
                         <Logo className="hidden lg:block" />
                         <ul className="flex gap-y-4 flex-col lg:flex-row lg:gap-x-12">
                             <li>
-                                <Link to="/" className="text-primary relative transition duration-300 border-b-2 border-transparent pb-2 nav-link-hover hover:cursor-pointer">Homepage</Link>
+                                <Link to="/" className="my-link">Homepage</Link>
                             </li>
                             <li>
-                                <Link to="/dashboard" className="text-primary relative transition duration-300 border-b-2 border-transparent pb-2 nav-link-hover hover:cursor-pointer">Dashboard</Link>
+                                <Link to="/dashboard" className="my-link">Dashboard</Link>
                             </li>
                             <li>
-                                <Link to="/about-us" className="text-primary relative transition duration-300 border-b-2 border-transparent pb-2 nav-link-hover hover:cursor-pointer">About Us</Link>
+                                <Link to="/about-us" className="my-link">About Us</Link>
                             </li>
                             <li>
-                                <Link to="/contact" className="text-primary relative transition duration-300 border-b-2 border-transparent pb-2 nav-link-hover hover:cursor-pointer">Contact</Link>
+                                <Link to="/contact" className="my-link">Contact</Link>
                             </li>
                         </ul>
                         <button className="my-primary-btn" onClick={toggleLoginModal}>

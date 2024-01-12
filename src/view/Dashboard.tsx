@@ -1,12 +1,15 @@
-import Wrap from "../components/UI/Wrap"
+import Administrator from "../components/Dashboard/Administrator"
+import Owner from "../components/Dashboard/Owner"
+import Agent from "../components/Dashboard/Agent"
 
 const Dashboard = () => {
+
   return (
-    <Wrap>
-      <div className="pt-12 text-center">
-        <h1 className="text-4xl">Dashboard</h1>
-      </div>
-    </Wrap>
+    <>
+      {/* will be shown based on logged in role */}
+      {/* <Administrator /> */}
+      <Owner />
+    </>
   )
 }
 

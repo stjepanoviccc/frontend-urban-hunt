@@ -35,5 +35,13 @@ body {
 }
 
 .my-ghost-btn {
-    @apply text-primary bg-white border-2 border-primary rounded-lg py-2 px-6;
+    @apply text-primary bg-transparent border-2 border-primary rounded-lg py-2 px-6;
+}
+
+.my-link {
+    @apply text-primary relative transition duration-300 border-b-2 border-transparent pb-2 nav-link-hover hover:cursor-pointer;
+}
+
+.my-link-active {
+    @apply text-primary relative transition duration-300 border-b-[3px] border-primary pb-2;
 }

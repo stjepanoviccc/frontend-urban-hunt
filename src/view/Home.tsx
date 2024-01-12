@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Wrap from "../components/UI/Wrap"
 import FormWrap from "../components/UI/FormUI/FormWrap";
-import Card from "../components/UI/Card";
+import Card from "../components/Card";
 
 const Home = () => {
 

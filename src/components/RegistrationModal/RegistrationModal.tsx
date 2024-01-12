@@ -49,6 +49,7 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
           <FormWrap label="Password">
             <input name="password" type="password" className="my-input" />
           </FormWrap>
+          <input name="role" type="hidden" value="Guest" />
           <div className="flex flex-col gap-y-2">
             <button type="submit" onClick={submitRegistration} className="my-primary-btn">Register</button>
           </div>

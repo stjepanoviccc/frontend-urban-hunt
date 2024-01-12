@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 interface Props {
     children: ReactNode;
     label: string;
-    className: string;
+    className?: string;
 }
 
 const FormWrap: React.FC<Props> = ({children, label, className}) => {

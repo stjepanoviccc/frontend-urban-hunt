@@ -44,9 +44,6 @@ const Navbar: React.FC = () => {
                             <li>
                                 <Link to="/about-us" className="my-link">About Us</Link>
                             </li>
-                            <li>
-                                <Link to="/contact" className="my-link">Contact</Link>
-                            </li>
                         </ul>
                         <button className="my-primary-btn" onClick={toggleLoginModal}>
                             Login

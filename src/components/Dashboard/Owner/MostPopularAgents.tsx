@@ -1,7 +1,7 @@
 import Table from "../../UI/TableUI/Table"
 import TableItem from "../../UI/TableUI/TableItem"
 
-const SeeMostPopularAgents: React.FC = () => {
+const MostPopularAgents: React.FC = () => {
   const tableData = [["1", "Anderson", "5", "150", "25"], ["2", "Komika", "4.9", "115", "18"], ["3", "Zeko", "4.8", "85", "9"]]
 
   return (
@@ -13,4 +13,4 @@ const SeeMostPopularAgents: React.FC = () => {
   )
 }
 
-export default SeeMostPopularAgents
+export default MostPopularAgents

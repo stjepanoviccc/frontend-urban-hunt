@@ -38,14 +38,14 @@ const Home = () => {
                 <input name="priceFrom" type="text" className="my-input max-w-64 text-center" placeholder="Price from" />
                 <input name="priceTo" type="text" className="my-input max-w-64 text-center" placeholder="Price to" />
               </FormWrap>
-              <FormWrap label="Sell Or Rent" className="flex justify-center items-center">
-              <select name="sellOrRent" className="my-input max-w-64">
-                  <option value="Sell">Sell</option>
+              <FormWrap label="Transaction Type" className="flex justify-center items-center">
+                <select name="transactionType" className="my-input max-w-64">
+                  <option value="Sale">Sale</option>
                   <option value="Rent">Rent</option>
                 </select>
               </FormWrap>
-              <FormWrap label="Type" className="flex justify-center items-center">
-                <select name="type" className="my-input max-w-64">
+              <FormWrap label="Real Estate Type" className="flex justify-center items-center">
+                <select name="realEstateType" className="my-input max-w-64">
                   <option value="House">House</option>
                   <option value="Apartment">Apartment</option>
                   <option value="Office">Office</option>
@@ -53,8 +53,8 @@ const Home = () => {
               </FormWrap>
             </div>
             <div className="mt-6">
-            <button type="submit" className="my-primary-btn">Apply</button>
-            <button type="submit" className="ml-4 my-ghost-btn">Clear</button>
+              <button type="submit" className="my-primary-btn">Apply</button>
+              <button type="submit" className="ml-4 my-ghost-btn">Clear</button>
             </div>
           </form>
         </div>

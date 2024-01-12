@@ -8,7 +8,8 @@ const Dashboard = () => {
     <>
       {/* will be shown based on logged in role */}
       {/* <Administrator /> */}
-      <Owner />
+      <Owner /> 
+      {/* <Agent /> */}
     </>
   )
 }

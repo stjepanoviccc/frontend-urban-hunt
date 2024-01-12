@@ -1,7 +1,7 @@
 import Table from "../../UI/TableUI/Table"
 import TableItem from "../../UI/TableUI/TableItem"
 
-const SeeMostPopularRealEstates: React.FC = () => {
+const MostPopularRealEstates: React.FC = () => {
   const tableData = [["1", "Barcelona", "123m2", "50000$", "Sale", "House", "5", "150", "15"], ["2", "Madrid", "55m2", "30000$", "Sale", "Office", "4.5", "120", "5"]]
 
   return (
@@ -13,4 +13,4 @@ const SeeMostPopularRealEstates: React.FC = () => {
   )
 }
 
-export default SeeMostPopularRealEstates
+export default MostPopularRealEstates

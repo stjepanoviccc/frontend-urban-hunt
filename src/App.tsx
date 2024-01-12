@@ -13,8 +13,7 @@ const App = () => {
     children: [
       { index: true, element: <Home /> },
       { path: 'dashboard', element: <Dashboard /> },
-      { path: 'about-us', element: <AboutUs /> },
-      { path: 'contact', element: <p>contact</p> },
+      { path: 'about-us', element: <AboutUs /> }
     ],
   }])
 

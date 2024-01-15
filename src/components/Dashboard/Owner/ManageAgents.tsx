@@ -1,5 +1,5 @@
 import Table from "../../UI/TableUI/Table"
-import TableItem from "../../UI/TableUI/TableItem"
+import TableItem from "../../UI/TableUI/UserTableItem"
 
 const ManageAgents: React.FC = () => {
   const tableData = [["1", "Anderson", "anderson@gmail.com", "Agent"], ["2", "Komika", "komika@gmail.com", "Agent"], ["3", "Zeko", "zeko123@gmail.com", "Agent"]]

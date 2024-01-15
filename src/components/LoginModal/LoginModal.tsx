@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import CloseButtonIcon from "../UI/Icons/CloseButtonIcon";
 import Modal from "../UI/Modal"
 import FormWrap from "../UI/FormUI/FormWrap";
@@ -8,12 +9,35 @@ interface Props {
 }
 
 const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal }) => {
+  const [formValidity, setFormValidity] = useState(false);
+  const [formData, setFormData] = useState<any>({
+    username: "",
+    password: ""
+  })
 
-  // it will later be submitting form from service
-  const submitLogin = () => {
-    closeLoginModal();
-    openRegistrationModal();
+  const handleChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [ev.target.name]: ev.target.value,
+    });
+
+    let isFormValid = Object.values(formData).every(value => value !== "");
+    setFormValidity(isFormValid);
   };
+
+  const submitLogin = async () => {
+    try {
+
+      closeLoginModal();
+      openRegistrationModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   return (
     <Modal>
@@ -31,13 +55,13 @@ const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal })
         {/* body */}
         <form className="flex flex-col gap-y-6">
           <FormWrap label="Username">
-            <input name="username" type="text" className="my-input" />
+            <input name="username" type="text" className="my-input" value={formData.username} onChange={handleChange} />
           </FormWrap>
           <FormWrap label="Password">
-            <input name="password" type="password" className="my-input" />
+            <input name="password" type="password" className="my-input" value={formData.password} onChange={handleChange} />
           </FormWrap>
           <div className="flex flex-col sm:flex-row justify-between gap-y-4 pt-4">
-            <button type="submit" className="my-primary-btn">Submit</button>
+            <button type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Submit</button>
             <div className="flex flex-col text-center">
               <p>You don't have account?</p>
               <button type="button" onClick={submitLogin} className="hover:coursor-pointer underline">Register Now!</button>

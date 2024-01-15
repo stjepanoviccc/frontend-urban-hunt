@@ -1,5 +1,5 @@
 import Table from "../../UI/TableUI/Table"
-import TableItem from "../../UI/TableUI/TableItem"
+import TableItem from "../../UI/TableUI/UserTableItem"
 
 const Calendar = () => {
   const tableData = [["1", "1", "1", "12.1.2024 12:15"]]

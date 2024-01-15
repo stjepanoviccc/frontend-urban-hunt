@@ -1,11 +1,11 @@
+import axios from "axios";
+import { API_ENDPOINTS, API_REGISTER_PATH } from "../../config/apiConfig";
 import { useState, useEffect } from "react";
 import CloseButtonIcon from "../UI/Icons/CloseButtonIcon";
 import Modal from "../UI/Modal";
 import FormWrap from "../UI/FormUI/FormWrap";
 import Role from "../../model/enums/Role";
 import UserFormData from "../../model/forms/UserFormData";
-import axios from "axios";
-import { API_ENDPOINTS } from "../../config/apiConfig";
 
 interface Props {
   closeRegistrationModal: () => void;
@@ -25,40 +25,35 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
     role: "GUEST" as Role
   })
 
-  const handleChange = async(ev: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
       [ev.target.name]: ev.target.value,
-    });
+    }));
 
     let isFormValid = Object.values(formData).every(value => value !== "");
     setFormValidity(isFormValid);
-
-
-    const res = await axios.get("http://localhost:3000/api/findAllGuests", {
-      withCredentials: true, // Include this line if your server requires credentials
-    });
-    console.log(res);
   };
 
-  const submitRegistration = async() => {
-    try {
-      /*
-      const response = await axios.post(API_ENDPOINTS.REGISTER_USER, formData);
-      console.log(response.data);
+  const submitRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-      closeRegistrationModal();
-      openLoginModal();
-      */
-     const res = await axios.get(API_ENDPOINTS.FIND_ALL_GUESTS);
-     console.log(res.data);
+    try {
+      axios.post(API_ENDPOINTS.REGISTER_USER, formData)
+        .then(() => {
+          closeRegistrationModal();
+          openLoginModal();
+        })
+        .catch(error => {
+          console.error('Error:', error.message);
+        });
     } catch (error) {
       console.log(error);
-    } 
+    }
   };
 
   useEffect(() => {
-    console.log(formData);
+
   }, [formData]);
 
   return (
@@ -75,7 +70,7 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
         </div>
 
         {/* body */}
-        <form className="flex flex-col gap-y-6">
+        <form className="flex flex-col gap-y-6" action={API_REGISTER_PATH} onSubmit={submitRegistration}>
           <FormWrap label="Name">
             <input name="firstName" type="text" className="my-input" value={formData.firstName} onChange={handleChange} />
           </FormWrap>
@@ -98,7 +93,7 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
             <input name="password" type="password" className="my-input" value={formData.password} onChange={handleChange} />
           </FormWrap>
           <div className="flex flex-col gap-y-2">
-            <button type="submit" onClick={submitRegistration} disabled={formValidity} className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Register</button>
+            <button disabled={formValidity} type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Register</button>
           </div>
         </form>
       </div>

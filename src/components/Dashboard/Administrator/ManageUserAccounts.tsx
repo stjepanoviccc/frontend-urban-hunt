@@ -1,20 +1,38 @@
+import axios from "axios"
+import { useState, useEffect } from "react"
+import { API_ENDPOINTS } from "../../../config/apiConfig"
+import User from "../../../model/User"
 import Table from "../../UI/TableUI/Table"
-import TableItem from "../../UI/TableUI/TableItem"
+import UserTableItem from "../../UI/TableUI/UserTableItem"
 
 const ManageUserAccounts: React.FC = () => {
-  const tableData = [["1", "Anderson", "anderson@gmail.com", "Administrator"], ["2", "Komika", "komika@gmail.com", "Agent"], ["3", "Zeko", "zeko123@gmail.com", "Agent"]]
+  const [data, setData] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.FIND_ALL_USERS);
+        setData(response.data);
+      } catch(error) {
+        console.log("Error: ", error)
+      }
+    }
+    
+    fetchData();
+
+  }, []);
 
   return (
     <Table headings={["User ID", "Username", "Email", "Role", "Action"]}>
-      {tableData.map((tableItem, index) => (
-        <TableItem key={index} data={tableItem}>
+      {data.map((dataItem, index) => (
+        <UserTableItem key={index} data={dataItem}>
           <td className="px-6 py-4">
             <form>
               <input type="hidden" name="id" value="1" />
               <button type="submit" className="font-medium text-red-200 hover:underline">Deactivate</button>
             </form>
           </td>
-        </TableItem>
+        </UserTableItem>
       ))}
     </Table>
   )

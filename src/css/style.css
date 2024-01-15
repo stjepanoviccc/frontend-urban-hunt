@@ -30,8 +30,12 @@ body {
     @apply py-1 border-b-[1px] border-primary w-full transition duration-200 focus:px-2 focus:outline-none focus:border-b-2 focus:shadow-md;
 }
 
+.my-disabled-btn {
+    @apply text-white bg-primary border-2 border-primary rounded-lg py-2 px-6 opacity-50;
+}
+
 .my-primary-btn {
-    @apply text-white bg-primary border-2 border-primary rounded-lg py-2 px-6 transition duration-300 hover:text-primary hover:bg-white;
+    @apply text-white bg-primary border-2 border-primary rounded-lg py-2 px-6 transition duration-300 hover:text-primary hover:bg-white hover:cursor-pointer;
 }
 
 .my-ghost-btn {

@@ -96,6 +96,7 @@ const Owner = () => {
                 <h1 className="text-4xl">Owner Dashboard</h1>
             </div>
             <div className="pt-12 text-center flex flex-col justify-between xl:flex-row items-center gap-y-4 pb-4">
+                <button>Define Agency</button>
                 <button className={`text-lg max-w-[200px] ${manageAgentsIsActive ? "my-link-active" : "my-link"}`} onClick={toggleManageAgents}>Manage Agents</button>
                 <button className={`text-lg max-w-[200px] ${seeMostPopularAgentsIsActive ? "my-link-active" : "my-link"}`} onClick={toggleMostPopularAgents}>Popular Agents</button>
                 <button className={`text-lg max-w-[200px] ${addNewAgentIsActive ? "my-link-active" : "my-link"}`} onClick={toggleAddNewAgent}>Add New Agent</button>

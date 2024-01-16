@@ -5,6 +5,7 @@ import RealEstate from "./RealEstate"
 
 type Agency = {
     id: number,
+    name: string,
     tours: Tour[],
     agents: Agent[],
     realEstates: RealEstate[],

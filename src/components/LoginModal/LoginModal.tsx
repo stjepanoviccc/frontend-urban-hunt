@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_ENDPOINTS, API_LOGIN_PATH } from "../../config/apiConfig";
-import { useState, useEffect, ReactHTMLElement } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
 import CloseButtonIcon from "../UI/Icons/CloseButtonIcon";
 import Modal from "../UI/Modal"
 import FormWrap from "../UI/FormUI/FormWrap";
@@ -15,8 +16,12 @@ const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal })
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<any>({
     username: "",
-    password: ""
+    password: "",
+    role: "GUEST"
   })
+
+  // test
+  const { user, login, logout } = useAuth();
 
   const handleChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
     { error == true && setError(false) }
@@ -38,6 +43,7 @@ const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal })
       localStorage.setItem('accessToken', userTokenState.accessToken);
       localStorage.setItem('expiresIn', userTokenState.expiresIn);
       localStorage.setItem('role', userTokenState.role);
+      login({ username: formData.username, role: formData.role });
       closeLoginModal();
     } catch (error) {
       console.log(error);
@@ -51,7 +57,7 @@ const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal })
   }
 
   useEffect(() => {
-    
+
   }, [formData]);
 
   return (

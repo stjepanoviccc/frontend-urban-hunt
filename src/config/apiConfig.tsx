@@ -1,7 +1,7 @@
 const API_BASE_URL = 'http://localhost:3000';
 
 export const API_REGISTER_PATH = '/auth/register';
-export const API_LOGIN_PATH = '/auth/loginUser';
+export const API_LOGIN_PATH = '/auth/login';
 export const API_DEACTIVATE_USER_PATH = '/deactivateUser';
 export const API_ACTIVATE_USER_PATH = '/activateUser';
 export const API_FIND_ALL_USERS_PATH = '/findAllUsers';

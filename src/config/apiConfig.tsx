@@ -9,9 +9,10 @@ export const API_FIND_ALL_USERS_PATH = '/admin/findAllUsers';
 export const API_CREATE_NEW_OWNER_PATH = '/admin/createNewOwner';
 // owner
 export const API_FIND_AGENCY_BY_OWNER_ID_PATH = '/owner/findAgencyByOwnerId';
-export const API_FIND_OWNER_BY_USERNAME_PATH = '/owner/findOwnerByUsername';
+export const API_FIND_OWNER_BY_ID_PATH = '/owner/findOwnerById';
 export const API_CREATE_AGENCY_PATH = '/owner/createAgency';
-export const API_FIND_AGENT_BY_AGENCY_ID_PATH = '/owner/findAgentByAgencyId';
+export const API_FIND_AGENTS_BY_AGENCY_ID_PATH = '/owner/findAgentsByAgencyId';
+export const API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH = '/owner/findMostPopularAgentsByAgencyId';
 
 export const API_ENDPOINTS = {
   // all roles
@@ -23,8 +24,9 @@ export const API_ENDPOINTS = {
   FIND_ALL_USERS: `${API_BASE_URL}${API_FIND_ALL_USERS_PATH}`,
   CREATE_NEW_OWNER: `${API_BASE_URL}${API_CREATE_NEW_OWNER_PATH}`,
   // owner role
-  FIND_OWNER_BY_USERNAME: `${API_BASE_URL}${API_FIND_OWNER_BY_USERNAME_PATH}`,
+  FIND_OWNER_BY_ID: `${API_BASE_URL}${API_FIND_OWNER_BY_ID_PATH}`,
   FIND_AGENCY: `${API_BASE_URL}${API_FIND_AGENCY_BY_OWNER_ID_PATH}`,
   CREATE_AGENCY: `${API_BASE_URL}${API_CREATE_AGENCY_PATH}`,
-  FIND_AGENT_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_AGENT_BY_AGENCY_ID_PATH}`
+  FIND_AGENTS_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_AGENTS_BY_AGENCY_ID_PATH}`,
+  FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH: `${API_BASE_URL}${API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH}`
 };

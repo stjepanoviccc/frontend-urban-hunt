@@ -43,9 +43,9 @@ const DefineAgency: React.FC = () => {
   useEffect(() => {
     const fetchOwnerId = async () => {
       try {
-        const response = await axios.get(API_ENDPOINTS.FIND_OWNER_BY_USERNAME, {
+        const response = await axios.get(API_ENDPOINTS.FIND_OWNER_BY_ID, {
           headers: {
-            'Authorization': `Bearer ${user?.accessToken}`,
+            'Authorization': `Bearer ${user?.accessToken}`
           },
         });
         setOwnerId(response.data.id);
@@ -58,7 +58,7 @@ const DefineAgency: React.FC = () => {
   }, [ownerId]);
 
   useEffect(() => {
-
+    console.log(formData);
   }, [formData]);
 
   return (

@@ -1,18 +1,36 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import { API_ENDPOINTS } from "../../../config/apiConfig";
 import Table from "../../UI/TableUI/Table"
-import TableItem from "../../UI/TableUI/UserTableItem"
+import RealStateTableItem from "../../UI/TableUI/RealEstateTableItem";
+import RealEstate from "../../../model/RealEstate";
 
 interface Props {
   agencyId: number;
 }
 
 const MostPopularRealEstates: React.FC<Props> = ({agencyId}) => {
-  console.log(agencyId);
-  const tableData = [["1", "Barcelona", "123m2", "50000$", "Sale", "House", "5", "150", "15"], ["2", "Madrid", "55m2", "30000$", "Sale", "Office", "4.5", "120", "5"]]
+  const {user} = useAuth();
+  const [data, setData] = useState<RealEstate[]>([]);
+
+  useEffect(() => {
+    const fetchAgents = async() => {
+      const response = await axios.get(API_ENDPOINTS.FIND_AGENTS_BY_AGENCY_ID + "?agencyId=" + agencyId, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`
+        },
+      });
+      setData(response.data);
+    }
+
+    fetchAgents();
+  }, [])
 
   return (
     <Table headings={["MOST POPULAR", "Location", "Surface", "Price", "Sale/Rent", "Type", "Rating", "Views", "Tours"]}>
-      {tableData.map((tableItem, index) => (
-        <TableItem key={index} data={tableItem} />
+      {data.map((dataItem, index) => (
+        <RealStateTableItem key={index} data={dataItem} />
       ))}
     </Table>
   )

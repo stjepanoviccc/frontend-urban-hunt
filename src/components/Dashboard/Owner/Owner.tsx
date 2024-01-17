@@ -100,6 +100,7 @@ const Owner = () => {
             const response = await axios.get(API_ENDPOINTS.FIND_AGENCY, {
                 headers: {
                     'Authorization': `Bearer ${user?.accessToken}`,
+                    'Content-Type': 'application/json',
                 },
             });
             const agency = response.data;

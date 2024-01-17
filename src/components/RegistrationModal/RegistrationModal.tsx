@@ -13,6 +13,7 @@ interface Props {
 }
 
 const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginModal }) => {
+  const [error, setError] = useState(false);
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
     firstName: "",
@@ -37,6 +38,9 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
 
   const submitRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if(!formValidity) {
+      return;
+    }
 
     try {
       axios.post(API_ENDPOINTS.REGISTER_USER, formData)
@@ -49,6 +53,7 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
         });
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   };
 
@@ -92,8 +97,9 @@ const RegistrationModal: React.FC<Props> = ({ closeRegistrationModal, openLoginM
           <FormWrap label="Password">
             <input name="password" type="password" className="my-input" value={formData.password} onChange={handleChange} />
           </FormWrap>
+          {error && <p className="text-red-600">Registration failed, please try again.</p>}
           <div className="flex flex-col gap-y-2">
-            <button disabled={formValidity} type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Register</button>
+            <button type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Register</button>
           </div>
         </form>
       </div>

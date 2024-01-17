@@ -16,12 +16,11 @@ const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal })
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<any>({
     username: "",
-    password: "",
-    role: "GUEST"
+    password: ""
   })
 
   // test
-  const { user, login, logout } = useAuth();
+  const { login } = useAuth();
 
   const handleChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
     { error == true && setError(false) }
@@ -36,14 +35,18 @@ const LoginModal: React.FC<Props> = ({ closeLoginModal, openRegistrationModal })
 
   const submitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if(!formValidity) {
+      return;
+    }
 
     try {
       const response = await axios.post(API_ENDPOINTS.LOGIN, formData)
       const userTokenState = response.data;
-      localStorage.setItem('accessToken', userTokenState.accessToken);
-      localStorage.setItem('expiresIn', userTokenState.expiresIn);
-      localStorage.setItem('role', userTokenState.role);
-      login({ username: formData.username, role: formData.role });
+      if(userTokenState.accessToken == "") {
+        setError(true);
+        return;
+      }
+      login(userTokenState);
       closeLoginModal();
     } catch (error) {
       console.log(error);

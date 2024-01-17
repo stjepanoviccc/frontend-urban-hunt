@@ -1,11 +1,12 @@
 import axios from "axios";
-import { API_ENDPOINTS, API_REGISTER_PATH } from "../../../config/apiConfig";
+import { API_ENDPOINTS, API_CREATE_NEW_OWNER_PATH } from "../../../config/apiConfig";
 import { useState, useEffect } from "react";
 import FormWrap from "../../UI/FormUI/FormWrap"
 import UserFormData from "../../../model/forms/UserFormData";
 import Role from "../../../model/enums/Role";
 
 const AddNewOwner: React.FC = () => {
+  const [error, setError] = useState(false);
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
     firstName: "",
@@ -19,6 +20,7 @@ const AddNewOwner: React.FC = () => {
   })
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    { error == true && setError(false) }
     setFormData(prevFormData => ({
       ...prevFormData,
       [ev.target.name]: ev.target.value,
@@ -30,14 +32,15 @@ const AddNewOwner: React.FC = () => {
 
   const submitAddNewOwner = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if(!formValidity) {
+      return;
+    }
 
     try {
-      axios.post(API_ENDPOINTS.REGISTER_USER, formData)
-        .catch(error => {
-          console.error('Error:', error.message);
-        });
+      axios.post(API_ENDPOINTS.CREATE_NEW_OWNER, formData)
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   };
 
@@ -47,7 +50,7 @@ const AddNewOwner: React.FC = () => {
 
   return (
     <>
-      <form className="flex flex-col gap-y-6 pb-12" action={API_REGISTER_PATH} onSubmit={submitAddNewOwner}>
+      <form className="flex flex-col gap-y-6 pb-12" action={API_CREATE_NEW_OWNER_PATH} onSubmit={submitAddNewOwner}>
         <FormWrap label="Name">
           <input name="firstName" type="text" className="my-input" value={formData.firstName} onChange={handleChange} />
         </FormWrap>
@@ -69,8 +72,9 @@ const AddNewOwner: React.FC = () => {
         <FormWrap label="Password">
           <input name="password" type="password" className="my-input" value={formData.password} onChange={handleChange} />
         </FormWrap>
+        {error && <p className="text-red-600">Creating new owner failed, please try again.</p>}
         <div className="flex flex-col gap-y-2">
-          <button disabled={formValidity} type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Add New Owner</button>
+          <button type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Add New Owner</button>
         </div>
       </form>
     </>

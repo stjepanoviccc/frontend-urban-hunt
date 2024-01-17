@@ -1,6 +1,7 @@
 interface UserLoggedData {
-    username: string;
-    role: string;
+    accessToken: String,
+    expiresIn: String,
+    role: String
 }
 
 export default UserLoggedData;

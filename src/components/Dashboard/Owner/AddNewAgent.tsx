@@ -5,7 +5,12 @@ import FormWrap from "../../UI/FormUI/FormWrap"
 import UserFormData from "../../../model/forms/UserFormData";
 import Role from "../../../model/enums/Role";
 
-const AddNewAgent: React.FC = () => {
+interface Props {
+  agencyId: number;
+}
+
+const AddNewAgent: React.FC<Props> = ({agencyId}) => {
+  console.log(agencyId);
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
     firstName: "",

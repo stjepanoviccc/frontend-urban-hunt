@@ -1,7 +1,12 @@
 import Table from "../../UI/TableUI/Table"
 import TableItem from "../../UI/TableUI/UserTableItem"
 
-const Calendar = () => {
+interface Props {
+  agencyId: number;
+}
+
+const Calendar: React.FC<Props> = ({agencyId}) => {
+  console.log(agencyId);
   const tableData = [["1", "1", "1", "12.1.2024 12:15"]]
 
   return (

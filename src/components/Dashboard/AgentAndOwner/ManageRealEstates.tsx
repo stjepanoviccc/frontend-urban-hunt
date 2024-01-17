@@ -1,7 +1,12 @@
 import Table from "../../UI/TableUI/Table"
 import TableItem from "../../UI/TableUI/UserTableItem"
 
-const ManageRealEstates: React.FC = () => {
+interface Props {
+  agencyId: number;
+}
+
+const ManageRealEstates: React.FC<Props> = ({agencyId}) => {
+  console.log(agencyId);
   const tableData = [["1", "Barcelona", "123m2", "50000$", "Sale", "House"], ["2", "Madrid", "55m2", "30000$", "Sale", "Office"]]
 
   return (

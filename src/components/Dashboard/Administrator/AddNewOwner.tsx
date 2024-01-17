@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import FormWrap from "../../UI/FormUI/FormWrap"
 import UserFormData from "../../../model/forms/UserFormData";
 import Role from "../../../model/enums/Role";
+import { useAuth } from "../../../context/AuthContext";
 
 const AddNewOwner: React.FC = () => {
+  const { user } = useAuth();
   const [error, setError] = useState(false);
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
@@ -30,14 +32,18 @@ const AddNewOwner: React.FC = () => {
     setFormValidity(isFormValid);
   };
 
-  const submitAddNewOwner = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitAddNewOwner = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(!formValidity) {
+    if (!formValidity) {
       return;
     }
 
     try {
-      axios.post(API_ENDPOINTS.CREATE_NEW_OWNER, formData)
+      axios.post(API_ENDPOINTS.CREATE_NEW_OWNER, formData, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`,
+        },
+      })
     } catch (error) {
       console.log(error);
       setError(true);
@@ -45,7 +51,7 @@ const AddNewOwner: React.FC = () => {
   };
 
   useEffect(() => {
-    
+
   }, [formData]);
 
   return (

@@ -10,37 +10,42 @@ const ManageUserAccounts: React.FC = () => {
   const [user, setUser] = useState<{ id: number; role: string } | null>(null);
 
   const handleSetUser = (id: number, role: string) => {
-     setUser({ id, role });
+    setUser({ id, role });
   };
 
-  const submitDeactivateUser = (event: React.FormEvent<HTMLFormElement>) => { 
+  const submitDeactivateUser = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
       axios.post(API_ENDPOINTS.DEACTIVATE_USER, user);
-    } catch(error) {
+    } catch (error) {
       console.log(error);
-    } 
+    }
   };
 
-  const submitActivateUser = (event: React.FormEvent<HTMLFormElement>) => { 
+  const submitActivateUser = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
       axios.post(API_ENDPOINTS.ACTIVATE_USER, user);
-    } catch(error) {
+    } catch (error) {
       console.log(error);
-    } 
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_ENDPOINTS.FIND_ALL_USERS);
+        const accessToken = localStorage.getItem('accessToken');
+        const response = await axios.get(API_ENDPOINTS.FIND_ALL_USERS, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          },
+        });
         setData(response.data);
-      } catch(error) {
+      } catch (error) {
         console.log("Error: ", error)
       }
     }
-    
+
     fetchData();
 
   }, []);
@@ -51,11 +56,11 @@ const ManageUserAccounts: React.FC = () => {
         <UserTableItem key={index} data={dataItem}>
           <td className="px-6 py-4">
             <form className="flex flex-col gap-y-6" action={dataItem.active ? API_DEACTIVATE_USER_PATH : API_ACTIVATE_USER_PATH} onSubmit={dataItem.active ? submitDeactivateUser : submitActivateUser}>
-            {dataItem.active ? (
-            <button onClick={() => handleSetUser(dataItem.id, dataItem.role)} type="submit" className="font-medium text-red-200 hover:underline">Deactivate</button>
-          ) : (
-            <button onClick={() => handleSetUser(dataItem.id, dataItem.role)} type="submit" className="font-medium text-green-200 hover:underline">Activate</button>
-          )}
+              {dataItem.active ? (
+                <button onClick={() => handleSetUser(dataItem.id, dataItem.role)} type="submit" className="font-medium text-red-200 hover:underline">Deactivate</button>
+              ) : (
+                <button onClick={() => handleSetUser(dataItem.id, dataItem.role)} type="submit" className="font-medium text-green-200 hover:underline">Activate</button>
+              )}
             </form>
           </td>
         </UserTableItem>

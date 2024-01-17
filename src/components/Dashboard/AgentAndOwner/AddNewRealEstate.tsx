@@ -1,6 +1,11 @@
 import FormWrap from "../../UI/FormUI/FormWrap"
 
-const AddNewRealEstate = () => {
+interface Props {
+  agencyId: number;
+}
+
+const AddNewRealEstate: React.FC<Props> = ({agencyId}) => {
+  console.log(agencyId);
   return (
     <>
       <form className="flex flex-col gap-y-6 pb-12">

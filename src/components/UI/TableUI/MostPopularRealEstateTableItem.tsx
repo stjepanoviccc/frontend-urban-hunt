@@ -14,6 +14,9 @@ const RealEstateTableItem: React.FC<Props> = ({ data, children }) => {
             <td className="px-6 py-4">{data.price}</td>
             <td className="px-6 py-4">{data.transactionType}</td>
             <td className="px-6 py-4">{data.realEstateType}</td>
+            <td className="px-6 py-4">{data.rating}</td>
+            <td className="px-6 py-4">{data.viewCount}</td>
+            <td className="px-6 py-4">Number of tours.</td>
             {children}
         </tr>
     );

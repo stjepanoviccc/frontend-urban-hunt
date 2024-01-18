@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { API_ENDPOINTS } from "../../../config/apiConfig";
 import Table from "../../UI/TableUI/Table"
-import RealStateTableItem from "../../UI/TableUI/RealEstateTableItem";
+import RealEstateTableItem from "../../UI/TableUI/RealEstateTableItem";
 import RealEstate from "../../../model/RealEstate";
 
 interface Props {
@@ -30,7 +30,7 @@ const MostPopularRealEstates: React.FC<Props> = ({agencyId}) => {
   return (
     <Table headings={["MOST POPULAR", "Location", "Surface", "Price", "Sale/Rent", "Type", "Rating", "Views", "Tours"]}>
       {data.map((dataItem, index) => (
-        <RealStateTableItem key={index} data={dataItem} />
+        <RealEstateTableItem key={index} data={dataItem} />
       ))}
     </Table>
   )

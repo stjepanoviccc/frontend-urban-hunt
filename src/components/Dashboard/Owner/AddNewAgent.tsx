@@ -37,7 +37,7 @@ const AddNewAgent: React.FC<Props> = ({agencyId}) => {
     event.preventDefault();
 
     try {
-      axios.post(API_ENDPOINTS.REGISTER_USER, formData)
+      axios.post(API_ENDPOINTS.REGISTER_USER + "?agencyId=" + agencyId, formData)
         .catch(error => {
           console.error('Error:', error.message);
         });

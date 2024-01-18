@@ -11,12 +11,11 @@ import ManageRealEstates from "../AgentAndOwner/ManageRealEstates";
 import MostPopularRealEstates from "./MostPopularRealEstates";
 import AddNewRealEstate from "../AgentAndOwner/AddNewRealEstate";
 import Calendar from "../AgentAndOwner/Calendar";
-import Agency from "../../../model/Agency";
 
 
 const Owner = () => {
     const { user } = useAuth();
-    const [agency, setAgency] = useState<Agency | null>(null);
+    const [agency, setAgency] = useState<any | null>(null);
     const [manageAgentsIsActive, setManageAgentsIsActive] = useState(true);
     const [seeMostPopularAgentsIsActive, setSeeMostPopularAgentsIsActive] = useState(false);
     const [addNewAgentIsActive, setAddNewAgentIsActive] = useState(false);
@@ -100,7 +99,6 @@ const Owner = () => {
             const response = await axios.get(API_ENDPOINTS.FIND_AGENCY, {
                 headers: {
                     'Authorization': `Bearer ${user?.accessToken}`,
-                    'Content-Type': 'application/json',
                 },
             });
             const agency = response.data;
@@ -108,7 +106,7 @@ const Owner = () => {
         }
 
         findAgency();
-    }, [agency])
+    }, [])
 
     return (
         <Wrap>
@@ -116,7 +114,7 @@ const Owner = () => {
                 <h1 className="text-4xl">Owner Dashboard</h1>
             </div>
             <div className="pt-12 text-center flex flex-col justify-between xl:flex-row items-center gap-y-4 pb-4">
-                {agency == null ? (
+                {agency != null && agency.id == null ? (
                     <button className="my-link-active">Define Agency</button>
                 ) : (
                     <>
@@ -132,7 +130,7 @@ const Owner = () => {
 
             </div>
             <div className="pt-12">
-                {agency == null ? (
+                {agency != null && agency.id == null ? (
                     <DefineAgency />
                 ) : (
                     <>

@@ -99,6 +99,7 @@ const Owner = () => {
             const response = await axios.get(API_ENDPOINTS.FIND_AGENCY, {
                 headers: {
                     'Authorization': `Bearer ${user?.accessToken}`,
+                    'Content-Type': 'application/json'
                 },
             });
             const agency = response.data;
@@ -114,9 +115,7 @@ const Owner = () => {
                 <h1 className="text-4xl">Owner Dashboard</h1>
             </div>
             <div className="pt-12 text-center flex flex-col justify-between xl:flex-row items-center gap-y-4 pb-4">
-                {agency != null && agency.id == null ? (
-                    <button className="my-link-active">Define Agency</button>
-                ) : (
+                {agency != "" ? (
                     <>
                         <button className={`text-lg max-w-[200px] ${manageAgentsIsActive ? "my-link-active" : "my-link"}`} onClick={toggleManageAgents}>Manage Agents</button>
                         <button className={`text-lg max-w-[200px] ${seeMostPopularAgentsIsActive ? "my-link-active" : "my-link"}`} onClick={toggleMostPopularAgents}>Popular Agents</button>
@@ -126,13 +125,13 @@ const Owner = () => {
                         <button className={`text-lg max-w-[200px] ${addNewRealEstateIsActive ? "my-link-active" : "my-link"}`} onClick={toggleAddNewRealEstate}>Add New Real Estate</button>
                         <button className={`text-lg max-w-[200px] ${seeCalendarIsActive ? "my-link-active" : "my-link"}`} onClick={toggleCalendar}>Calendar</button>
                     </>
+                ) : (
+                    <button className="my-link-active">Define Agency</button>
                 )}
 
             </div>
             <div className="pt-12">
-                {agency != null && agency.id == null ? (
-                    <DefineAgency />
-                ) : (
+                {agency != "" ? (
                     <>
                         {manageAgentsIsActive && <ManageAgents agencyId={agency?.id} />}
                         {seeMostPopularAgentsIsActive && <MostPopularAgents agencyId={agency?.id} />}
@@ -142,6 +141,8 @@ const Owner = () => {
                         {seeMostPopularRealEstatesIsActive && <MostPopularRealEstates agencyId={agency?.id} />}
                         {addNewRealEstateIsActive && <AddNewRealEstate agencyId={agency?.id} />}
                     </>
+                ) : (
+                    <DefineAgency />
                 )}
             </div>
         </Wrap>

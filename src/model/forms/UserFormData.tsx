@@ -9,6 +9,7 @@ type UserFormData = {
     username: string,
     password: string,
     role: Role,
+    agencyId?: number
 }
 
 export default UserFormData;

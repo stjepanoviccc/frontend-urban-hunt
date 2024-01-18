@@ -20,7 +20,8 @@ const AddNewAgent: React.FC<Props> = ({agencyId}) => {
     address: "",
     username: "",
     password: "",
-    role: "AGENT" as Role
+    role: "AGENT" as Role,
+    agencyId: agencyId
   })
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +38,7 @@ const AddNewAgent: React.FC<Props> = ({agencyId}) => {
     event.preventDefault();
 
     try {
-      axios.post(API_ENDPOINTS.REGISTER_USER + "?agencyId=" + agencyId, formData)
+      axios.post(API_ENDPOINTS.REGISTER_USER, formData)
         .catch(error => {
           console.error('Error:', error.message);
         });

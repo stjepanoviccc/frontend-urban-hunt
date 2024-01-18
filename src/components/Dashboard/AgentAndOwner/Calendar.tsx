@@ -48,16 +48,9 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
 
   useEffect(() => {
     const findCalendarById = async () => {
-      let endpoint = "";
-      if (user?.role == "OWNER") {
-        endpoint = API_ENDPOINTS.FIND_CALENDAR_BY_OWNER_ID;
-      }
-      else if (user?.role == "AGENT") {
-        endpoint = API_ENDPOINTS.FIND_CALENDAR_BY_AGENT_ID;
-      }
 
       try {
-        const response = await axios.get(endpoint, {
+        const response = await axios.get(API_ENDPOINTS.FIND_CALENDAR_BY_AGENT_USER_ID, {
           headers: {
             'Authorization': `Bearer ${user?.accessToken}`
           },

@@ -26,14 +26,18 @@ const DefineAgency: React.FC = () => {
     setFormValidity(isFormValid);
   };
 
-  const submitAddNewAgency = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitAddNewAgency = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!formValidity) {
       return;
     }
 
     try {
-      axios.post(API_ENDPOINTS.CREATE_AGENCY, formData);
+      axios.post(API_ENDPOINTS.CREATE_AGENCY, formData, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`
+        },
+      });
     } catch (error) {
       console.error('Error:', error);
     }

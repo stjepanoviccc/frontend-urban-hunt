@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useAuth } from "../../../context/AuthContext"
-import { API_ENDPOINTS, API_FIND_AGENTS_BY_AGENCY_ID_PATH } from "../../../config/apiConfig"
+import { API_DELETE_AGENT_PATH, API_ENDPOINTS } from "../../../config/apiConfig"
 import Table from "../../UI/TableUI/Table"
 import UserTableItem from "../../UI/TableUI/UserTableItem"
 import Agent from "../../../model/Agent"
@@ -12,13 +12,21 @@ interface Props {
 
 const ManageAgents: React.FC<Props> = ({ agencyId }) => {
   const { user } = useAuth();
-  const [agentId, setAgentId] = useState<any>(null);
+  const [agentId, setAgentId] = useState<number | null>(null);
   const [data, setData] = useState<Agent[]>([]);
 
   const submitDeleteAgent = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
+
     try {
-      axios.post(API_ENDPOINTS.DELETE_AGENT, agentId);
+      axios.post(
+        API_ENDPOINTS.DELETE_AGENT + "?agentId=" + agentId, {},
+        {
+          headers: {
+            'Authorization': `Bearer ${user?.accessToken}`
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -32,19 +40,19 @@ const ManageAgents: React.FC<Props> = ({ agencyId }) => {
             'Authorization': `Bearer ${user?.accessToken}`
           },
         });
+
         setData(response.data);
       }
-
       fetchAgents();
     }
-  }, [])
+  }, [agencyId, data])
 
   return (
     <Table headings={["User ID", "Username", "Email", "Role", "Action"]}>
       {data.map((dataItem, index) => (
         <UserTableItem key={index} data={dataItem}>
           <td className="px-6 py-4">
-            <form action={API_FIND_AGENTS_BY_AGENCY_ID_PATH} onSubmit={submitDeleteAgent}>
+            <form action={API_DELETE_AGENT_PATH} onSubmit={submitDeleteAgent}>
               <button onClick={() => setAgentId(dataItem.id)} type="submit" className="font-medium text-red-200 hover:underline">Delete</button>
             </form>
           </td>

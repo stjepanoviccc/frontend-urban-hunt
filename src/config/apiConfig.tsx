@@ -13,10 +13,10 @@ export const API_FIND_OWNER_BY_ID_PATH = '/owner/findOwnerById';
 export const API_CREATE_AGENCY_PATH = '/owner/createAgency';
 export const API_CREATE_AGENT_PATH = '/owner/createAgent';
 export const API_DELETE_AGENT_PATH = '/owner/deleteAgent';
-export const API_FIND_AGENTS_BY_AGENCY_ID_PATH = '/owner/findAgentsByAgencyId';
+export const API_FIND_AGENTS_BY_AGENCY_ID_PATH = '/owner/findAllAgentsByAgencyId';
 export const API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH = '/owner/findMostPopularAgentsByAgencyId';
 // agent+owner junction
-export const API_ADD_NEW_REAL_ESTATE_PATH = '/agentAndOwner/addNewRealEstate';
+export const API_ADD_NEW_REAL_ESTATE_PATH = '/agentAndOwner/createRealEstate';
 export const API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH = '/agentAndOwner/findRealEstatesByAgencyId';
 export const API_CALENDAR_ACCEPT_REQUEST_PATH = '/agentAndOwner/calendarAcceptRequest';
 export const API_CALENDAR_DELETE_REQUEST_PATH = '/agentAndOwner/calendarDeleteRequest';

@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useState} from "react";
+import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import { useTopBar } from "../../../context/TopBarContext";
 import { API_ENDPOINTS } from "../../../config/apiConfig";
 import FormWrap from "../../UI/FormUI/FormWrap"
 import RealEstateFormData from "../../../model/forms/RealEstateFormData";
@@ -10,7 +11,8 @@ interface Props {
 }
 
 const AddNewRealEstate: React.FC<Props> = ({ agencyId }) => {
-  const {user} = useAuth();
+  const {show} = useTopBar();
+  const { user } = useAuth();
   const [error, setError] = useState(false);
   const initFiles: [] = [];
   const [formValidity, setFormValidity] = useState(false);
@@ -29,7 +31,7 @@ const AddNewRealEstate: React.FC<Props> = ({ agencyId }) => {
     const files = ev.target.files;
     if (files) {
       const fileNamesArray: string[] = Array.from(files).map((file) => file.name);
-  
+
       setFormData((prevFormData) => ({
         ...prevFormData,
         images: fileNamesArray,
@@ -68,17 +70,17 @@ const AddNewRealEstate: React.FC<Props> = ({ agencyId }) => {
             'Authorization': `Bearer ${user?.accessToken}`
           },
         })
-          .then(() => {
-            setFormData({
-              location: "",
-              surfaceArea: 0,
-              price: 0,
-              transactionType: "SALE",
-              realEstateType: "HOUSE",
-              images: initFiles,
-              agencyId
-            });
-          })
+        setFormData({
+          location: "",
+          surfaceArea: 0,
+          price: 0,
+          transactionType: "SALE",
+          realEstateType: "HOUSE",
+          images: initFiles,
+          agencyId
+        });
+        show("New Real Estate Added Successfully!", "SUCCESS");
+        
       } catch (error) {
         console.log("Error adding new real estate: ", error);
       }
@@ -112,7 +114,7 @@ const AddNewRealEstate: React.FC<Props> = ({ agencyId }) => {
           </select>
         </FormWrap>
         <FormWrap label="Image">
-          <input onChange={handleImageChange} name="image" type="file" className="my-input"  multiple />
+          <input onChange={handleImageChange} name="image" type="file" className="my-input" multiple />
         </FormWrap>
         <div className="flex flex-col gap-y-2">
           <button type="submit" className={`${formValidity ? 'my-primary-btn' : 'my-disabled-btn'}`}>Add New Real Estate</button>

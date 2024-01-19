@@ -4,9 +4,10 @@ import { API_ENDPOINTS, API_DEACTIVATE_USER_PATH, API_ACTIVATE_USER_PATH } from 
 import User from "../../../model/User"
 import Table from "../../UI/TableUI/Table"
 import UserTableItem from "../../UI/TableUI/UserTableItem"
-import { header } from "../../../config/header"
+import { useTopBar } from "../../../context/TopBarContext"
 
 const ManageUserAccounts: React.FC = () => {
+  const {show} = useTopBar();
   const [data, setData] = useState<User[]>([]);
   const [refreshAfterDelete, setRefreshAfterDelete] = useState<boolean>();
   const [user, setUser] = useState<{ id: number; role: string } | null>(null);
@@ -18,16 +19,30 @@ const ManageUserAccounts: React.FC = () => {
   const submitDeactivateUser = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
-      axios.post(API_ENDPOINTS.DEACTIVATE_USER, user, header).then(() => setRefreshAfterDelete(prev => !prev))
+      const token = localStorage.getItem("accessToken");
+      axios.post(API_ENDPOINTS.DEACTIVATE_USER, user, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      setRefreshAfterDelete(prev => !prev)
+      show("User Deactivated Sucessfully!", "NOT");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const submitActivateUser = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitActivateUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
-      axios.post(API_ENDPOINTS.ACTIVATE_USER, user, header).then(() => setRefreshAfterDelete(prev => !prev))
+      const token = localStorage.getItem("accessToken");
+      await axios.post(API_ENDPOINTS.ACTIVATE_USER, user, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+      setRefreshAfterDelete(prev => !prev);
+      show("User Activated Successfully!", "SUCCESS");
     } catch (error) {
       console.log(error);
     }

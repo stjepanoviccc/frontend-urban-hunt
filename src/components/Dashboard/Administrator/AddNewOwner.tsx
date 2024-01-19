@@ -5,9 +5,11 @@ import FormWrap from "../../UI/FormUI/FormWrap"
 import UserFormData from "../../../model/forms/UserFormData";
 import Role from "../../../model/enums/Role";
 import { useAuth } from "../../../context/AuthContext";
+import { useTopBar } from "../../../context/TopBarContext";
 
 const AddNewOwner: React.FC = () => {
   const { user } = useAuth();
+  const { show } = useTopBar();
   const [error, setError] = useState(false);
   const [formValidity, setFormValidity] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
@@ -54,6 +56,7 @@ const AddNewOwner: React.FC = () => {
           password: "",
           role: "OWNER" as Role,
         });
+        show("New Owner Has Been Added Successfully!", "SUCCESS");
       })
     } catch (error) {
       console.log(error);

@@ -2,12 +2,14 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import { useTopBar } from "../../../context/TopBarContext";
 import { API_ENDPOINTS, API_CREATE_AGENCY_PATH } from "../../../config/apiConfig";
 import FormWrap from "../../UI/FormUI/FormWrap"
 import AgencyInitialize from "../../../model/forms/AgencyInitialize";
 
 const DefineAgency: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const {show} = useTopBar();
   const { user } = useAuth();
   const [formValidity, setFormValidity] = useState(false);
   const [ownerId, setOwnerId] = useState<number>(-999);
@@ -26,18 +28,19 @@ const DefineAgency: React.FC = () => {
     setFormValidity(isFormValid);
   };
 
-  const submitAddNewAgency = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitAddNewAgency = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!formValidity) {
       return;
     }
 
     try {
-      axios.post(API_ENDPOINTS.CREATE_AGENCY, formData, {
+      await axios.post(API_ENDPOINTS.CREATE_AGENCY, formData, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
       });
+      show("Agency Created Successfully!", "SUCCESS");
     } catch (error) {
       console.error('Error:', error);
     }

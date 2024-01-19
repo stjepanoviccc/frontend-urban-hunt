@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { TopBarProvider } from "./context/TopBarContext";
 import RootLayout from "./view/RootLayout";
 import ErrorPage from "./view/ErrorPage";
 import Home from "./view/Home";
@@ -20,7 +21,9 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <TopBarProvider>
+        <RouterProvider router={router} />
+      </TopBarProvider>
     </AuthProvider>
   );
 }

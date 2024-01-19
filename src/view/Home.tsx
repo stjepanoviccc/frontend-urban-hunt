@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../config/apiConfig";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTopBar } from "../context/TopBarContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 import { } from "@fortawesome/free-solid-svg-icons";
@@ -15,11 +16,49 @@ import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
 
 const Home = () => {
+  const [formData, setFormData] = useState<any>({
+    realEstateId: 0,
+    accepted: false,
+    finished: false,
+    startDate: 1
+  })
+
+  const {show} = useTopBar();
   const [data, setData] = useState<RealEstate[]>([]);
   const { user } = useAuth();
   const [isFilteringFormActive, setIsFilteringFormActive] = useState(false);
+
   const toggleFilteringForm = () => {
     setIsFilteringFormActive(prev => !prev);
+  };
+
+  const submitCreateTour = async (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    if(formData.startDate == 1) {
+      show("Please select start date!", "NOT");
+      return;
+    }
+
+    try {
+      await axios.post(API_ENDPOINTS.CREATE_TOUR, formData, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`,
+        },
+      })
+      show("New Tour Has Been Added Successfully!", "SUCCESS");
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const updateFormData = (realEstateId: number, startTime: number) => {
+    setFormData({
+      realEstateId,
+      accepted: false,
+      finished: false,
+      startTime,
+    });
   };
 
   useEffect(() => {
@@ -104,8 +143,13 @@ const Home = () => {
               <p className="text-lg">Price: {dataItem.price}$</p>
               <p className="text-lg pb-2">Type: {dataItem.realEstateType}</p>
               <p className="text-lg font-bold pb-2 border-t-2 border-primary pt-2">Schedule A Tour?</p>
-              <form>
-                <input name="date" type="date" className="border-2 border-primary rounded-lg p-2 w-36" />
+              <form onSubmit={submitCreateTour}>
+                <input
+                  name="startTime"
+                  type="datetime-local"
+                  className="border-2 border-primary rounded-lg p-2 w-50"
+                  onChange={(e) => updateFormData(dataItem.id, new Date(e.target.value).getTime())}
+                />
                 <button type="submit" className="my-ghost-btn ml-4 my-4">Send</button>
               </form>
               <div className="border-t-2 border-primary py-2 flex justify-around">

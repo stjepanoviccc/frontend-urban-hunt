@@ -3,6 +3,8 @@ const API_BASE_URL = 'http://localhost:3000';
 export const API_REGISTER_PATH = '/auth/register';
 export const API_LOGIN_PATH = '/auth/login';
 export const API_FIND_ALL_REAL_ESTATES_PATH = '/findAllRealEstates';
+// guest
+export const API_CREATE_TOUR_PATH = '/createTour';
 // admin
 export const API_DEACTIVATE_USER_PATH = '/admin/deactivateUser';
 export const API_ACTIVATE_USER_PATH = '/admin/activateUser';
@@ -34,6 +36,8 @@ export const API_ENDPOINTS = {
   REGISTER_USER: `${API_BASE_URL}${API_REGISTER_PATH}`,
   LOGIN: `${API_BASE_URL}${API_LOGIN_PATH}`,
   FIND_ALL_REAL_ESTATES: `${API_BASE_URL}${API_FIND_ALL_REAL_ESTATES_PATH}`,
+  // guest
+  CREATE_TOUR: `${API_BASE_URL}${API_CREATE_TOUR_PATH}`,
   // admin role
   DEACTIVATE_USER: `${API_BASE_URL}${API_DEACTIVATE_USER_PATH}`,
   ACTIVATE_USER: `${API_BASE_URL}${API_ACTIVATE_USER_PATH}`,

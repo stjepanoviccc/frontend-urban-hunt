@@ -43,6 +43,17 @@ const AddNewOwner: React.FC = () => {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`,
         },
+      }).then(() => {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: 0,
+          address: "",
+          username: "",
+          password: "",
+          role: "OWNER" as Role,
+        });
       })
     } catch (error) {
       console.log(error);

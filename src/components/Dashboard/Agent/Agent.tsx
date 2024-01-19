@@ -1,10 +1,15 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import { API_ENDPOINTS } from "../../../config/apiConfig";
 import Wrap from "../../UI/Wrap";
 import ManageRealEstates from "../AgentAndOwner/ManageRealEstates";
 import AddNewRealEstate from "../AgentAndOwner/AddNewRealEstate";
 import Calendar from "../AgentAndOwner/Calendar";
 
 const Agent = () => {
+  const {user} = useAuth();
+  const [agency, setAgency] = useState<any | null>(null);
   const [manageRealEstatesIsActive, setManageRealEstatesIsActive] = useState(false);
   const [addNewRealEstateIsActive, setAddNewRealEstateIsActive] = useState(false);
   const [seeCalendarIsActive, setSeeCalendarIsActive] = useState(false);
@@ -27,6 +32,21 @@ const Agent = () => {
     setAddNewRealEstateIsActive(false);
   }
 
+  useEffect(() => {
+    const findAgency = async () => {
+        const response = await axios.get(API_ENDPOINTS.FIND_AGENCY_BY_AGENT_ID, {
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+        const agency = response.data;
+        setAgency(agency);
+    }
+
+    findAgency();
+}, [])
+
   return (
     <Wrap>
     <div className="pt-12 text-center">
@@ -38,9 +58,9 @@ const Agent = () => {
         <button className={`text-lg max-w-[200px] ${addNewRealEstateIsActive ? "my-link-active" : "my-link"}`} onClick={toggleAddNewRealEstate}>Add New Real Estate</button>
     </div>
     <div className="pt-12">
-        {manageRealEstatesIsActive && <ManageRealEstates />}
-        {addNewRealEstateIsActive && <AddNewRealEstate />}
-        {seeCalendarIsActive && <Calendar />}
+        {manageRealEstatesIsActive && <ManageRealEstates agencyId={agency?.id} />}
+        {addNewRealEstateIsActive && <AddNewRealEstate agencyId={agency?.id} />}
+        {seeCalendarIsActive && <Calendar agencyId={agency?.id} />}
     </div>
 </Wrap>
   )

@@ -4,9 +4,11 @@ import { API_ENDPOINTS, API_DEACTIVATE_USER_PATH, API_ACTIVATE_USER_PATH } from 
 import User from "../../../model/User"
 import Table from "../../UI/TableUI/Table"
 import UserTableItem from "../../UI/TableUI/UserTableItem"
+import { header } from "../../../config/header"
 
 const ManageUserAccounts: React.FC = () => {
   const [data, setData] = useState<User[]>([]);
+  const [refreshAfterDelete, setRefreshAfterDelete] = useState<boolean>();
   const [user, setUser] = useState<{ id: number; role: string } | null>(null);
 
   const handleSetUser = (id: number, role: string) => {
@@ -16,7 +18,7 @@ const ManageUserAccounts: React.FC = () => {
   const submitDeactivateUser = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
-      axios.post(API_ENDPOINTS.DEACTIVATE_USER, user);
+      axios.post(API_ENDPOINTS.DEACTIVATE_USER, user, header).then(() => setRefreshAfterDelete(prev => !prev))
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +27,7 @@ const ManageUserAccounts: React.FC = () => {
   const submitActivateUser = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
-      axios.post(API_ENDPOINTS.ACTIVATE_USER, user);
+      axios.post(API_ENDPOINTS.ACTIVATE_USER, user, header).then(() => setRefreshAfterDelete(prev => !prev))
     } catch (error) {
       console.log(error);
     }
@@ -33,11 +35,11 @@ const ManageUserAccounts: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem("accessToken");
       try {
-        const accessToken = localStorage.getItem('accessToken');
         const response = await axios.get(API_ENDPOINTS.FIND_ALL_USERS, {
           headers: {
-            'Authorization': `Bearer ${accessToken}`
+            'Authorization': `Bearer ${token}`
           },
         });
         setData(response.data);
@@ -48,7 +50,7 @@ const ManageUserAccounts: React.FC = () => {
 
     fetchData();
 
-  }, []);
+  }, [refreshAfterDelete]);
 
   return (
     <Table headings={["User ID", "Username", "Email", "Role", "Action"]}>

@@ -44,6 +44,19 @@ const AddNewAgent: React.FC<Props> = ({agencyId}) => {
             'Authorization': `Bearer ${user?.accessToken}`
           },
         })
+        .then(() => {
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: 0,
+            address: "",
+            username: "",
+            password: "",
+            role: "AGENT" as Role,
+            agencyId: agencyId,
+          });
+        })
           .catch(error => {
             console.error('Error:', error.message);
           });

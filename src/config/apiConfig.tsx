@@ -15,6 +15,8 @@ export const API_CREATE_AGENT_PATH = '/owner/createAgent';
 export const API_DELETE_AGENT_PATH = '/owner/deleteAgent';
 export const API_FIND_AGENTS_BY_AGENCY_ID_PATH = '/owner/findAllAgentsByAgencyId';
 export const API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH = '/owner/findMostPopularAgentsByAgencyId';
+// agent
+export const API_FIND_AGENCY_BY_AGENT_ID_PATH = '/agent/findAgencyByAgentId';
 // agent+owner junction
 export const API_ADD_NEW_REAL_ESTATE_PATH = '/agentAndOwner/createRealEstate';
 export const API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH = '/agentAndOwner/findRealEstatesByAgencyId';
@@ -40,6 +42,8 @@ export const API_ENDPOINTS = {
   DELETE_AGENT: `${API_BASE_URL}${API_DELETE_AGENT_PATH}`,
   FIND_AGENTS_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_AGENTS_BY_AGENCY_ID_PATH}`,
   FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH: `${API_BASE_URL}${API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH}`,
+  // agent
+  FIND_AGENCY_BY_AGENT_ID: `${API_BASE_URL}${API_FIND_AGENCY_BY_AGENT_ID_PATH}`,
   // agent+owner junction
   ADD_NEW_REAL_ESTATE: `${API_BASE_URL}${API_ADD_NEW_REAL_ESTATE_PATH}`,
   FIND_REAL_ESTATES_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH}`,

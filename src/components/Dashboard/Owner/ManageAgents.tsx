@@ -31,7 +31,7 @@ const ManageAgents: React.FC<Props> = ({ agencyId }) => {
         }
       )
       setRefreshAfterDelete(prev => !prev)
-      show("Agent Deleted Successfully!", "NOT");
+      show("Agent Deleted Successfully!", "SUCCESS");
     } catch (error) {
       console.log(error);
     }

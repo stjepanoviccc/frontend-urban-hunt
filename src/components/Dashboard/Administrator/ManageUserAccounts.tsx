@@ -16,17 +16,21 @@ const ManageUserAccounts: React.FC = () => {
     setUser({ id, role });
   };
 
-  const submitDeactivateUser = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRefresh = () => {
+    setRefreshAfterDelete(prev => !prev);
+  };
+
+  const submitDeactivateUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     try {
       const token = localStorage.getItem("accessToken");
-      axios.post(API_ENDPOINTS.DEACTIVATE_USER, user, {
+      await axios.post(API_ENDPOINTS.DEACTIVATE_USER, user, {
         headers: {
           'Authorization': `Bearer ${token}`
         },
       })
-      setRefreshAfterDelete(prev => !prev)
-      show("User Deactivated Sucessfully!", "NOT");
+      handleRefresh();
+      show("User Deactivated Sucessfully!", "SUCCESS");
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +45,7 @@ const ManageUserAccounts: React.FC = () => {
           'Authorization': `Bearer ${token}`
         },
       });
-      setRefreshAfterDelete(prev => !prev);
+      handleRefresh();
       show("User Activated Successfully!", "SUCCESS");
     } catch (error) {
       console.log(error);

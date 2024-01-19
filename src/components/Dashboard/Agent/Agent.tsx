@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { API_ENDPOINTS } from "../../../config/apiConfig";
 import Wrap from "../../UI/Wrap";
-import ManageRealEstates from "../AgentAndOwner/ManageRealEstates";
-import AddNewRealEstate from "../AgentAndOwner/AddNewRealEstate";
+import ManageRealEstates from "../AgentAndOwner/old-manage-estates";
+import AddNewRealEstate from "./AddNewRealEstate";
 import Calendar from "../AgentAndOwner/Calendar";
 
 const Agent = () => {

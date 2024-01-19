@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Wrap from "../../UI/Wrap";
 import ManageUserAccounts from "./ManageUserAccounts";
-import ManageRealEstates from "./ManageRealEstates";
+import ManageRealEstates from "../AgentAndAdministrator/ManageRealEstates";
 import AddNewOwner from "./AddNewOwner";
 import GenerateReport from "./GenerateReport";
 

@@ -9,6 +9,7 @@ interface Props {
 const RealEstateTableItem: React.FC<Props> = ({ data, children }) => {
     return (
         <tr className="bg-secondary border-b border-primary">
+            <td className="px-6 py-4">{data.id}</td>
             <td className="px-6 py-4">{data.location}</td>
             <td className="px-6 py-4">{data.surfaceArea}</td>
             <td className="px-6 py-4">{data.price}</td>

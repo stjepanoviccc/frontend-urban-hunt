@@ -14,7 +14,9 @@ const Navbar: React.FC = () => {
     const [isRegistrationModalActive, setIsRegistrationModalActive] = useState(false);
 
     const toggleNavMenu = () => {
-        setIsNavMenuActive(prev => !prev);
+        if(window.innerWidth < 1024) {
+            setIsNavMenuActive(prev => !prev);
+        }
     };
 
     const toggleLoginModal = () => {
@@ -37,11 +39,11 @@ const Navbar: React.FC = () => {
                         lg:flex lg:flex-row lg:justify-between lg:items-center lg:gap-x-24 gap-y-4 py-4`}>
                         <Logo className="hidden lg:block" />
                         <ul className="flex gap-y-4 flex-col lg:flex-row lg:gap-x-12">
-                            <li> <Link to="/" className="my-link">Homepage</Link> </li>
-                            {user?.role == "ADMINISTRATOR" && <li> <Link to="/dashboard" className="my-link">Dashboard</Link> </li> }
-                            {user?.role == "OWNER" && <li> <Link to="/dashboard" className="my-link">Dashboard</Link> </li> }
-                            {user?.role == "AGENT" && <li> <Link to="/dashboard" className="my-link">Dashboard</Link> </li> }
-                            <li> <Link to="/about-us" className="my-link">About Us</Link> </li>
+                            <li> <Link onClick={toggleNavMenu} to="/" className="my-link">Homepage</Link> </li>
+                            {user?.role == "ADMINISTRATOR" && <li> <Link onClick={toggleNavMenu} to="/dashboard" className="my-link">Dashboard</Link> </li> }
+                            {user?.role == "OWNER" && <li> <Link onClick={toggleNavMenu} to="/dashboard" className="my-link">Dashboard</Link> </li> }
+                            {user?.role == "AGENT" && <li> <Link onClick={toggleNavMenu} to="/dashboard" className="my-link">Dashboard</Link> </li> }
+                            <li> <Link onClick={toggleNavMenu} to="/about-us" className="my-link">About Us</Link> </li>
                         </ul>
                         {user == null ? <button className="my-primary-btn" onClick={toggleLoginModal}> Login </button> : <button className="my-ghost-btn" onClick={logout} > Logout </button> }
                     

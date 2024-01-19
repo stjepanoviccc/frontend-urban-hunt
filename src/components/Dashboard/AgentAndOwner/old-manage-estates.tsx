@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
@@ -9,6 +10,10 @@ import RealEstate from "../../../model/RealEstate";
 interface Props {
   agencyId: number;
 }
+
+
+// OVA NE FUNKCIONISE!.
+
 
 const ManageRealEstates: React.FC<Props> = ({agencyId}) => {
   const {user} = useAuth();
@@ -43,4 +48,4 @@ const ManageRealEstates: React.FC<Props> = ({agencyId}) => {
   )
 }
 
-export default ManageRealEstates
+export default ManageRealEstates 

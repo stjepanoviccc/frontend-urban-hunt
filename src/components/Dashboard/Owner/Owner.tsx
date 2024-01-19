@@ -7,9 +7,9 @@ import DefineAgency from "./DefineAgency";
 import ManageAgents from "./ManageAgents";
 import MostPopularAgents from "./MostPopularAgents";
 import AddNewAgent from "./AddNewAgent";
-import ManageRealEstates from "../AgentAndOwner/ManageRealEstates";
+import ManageRealEstates from "../AgentAndAdministrator/ManageRealEstates";
 import MostPopularRealEstates from "./MostPopularRealEstates";
-import AddNewRealEstate from "../AgentAndOwner/AddNewRealEstate";
+import AddNewRealEstate from "../Agent/AddNewRealEstate";
 import Calendar from "../AgentAndOwner/Calendar";
 
 
@@ -137,7 +137,7 @@ const Owner = () => {
                         {seeMostPopularAgentsIsActive && <MostPopularAgents agencyId={agency?.id} />}
                         {addNewAgentIsActive && <AddNewAgent agencyId={agency?.id} />}
                         {seeCalendarIsActive && <Calendar agencyId={agency?.id} />}
-                        {manageRealEstatesIsActive && <ManageRealEstates agencyId={agency?.id} />}
+                        {manageRealEstatesIsActive && <ManageRealEstates />}
                         {seeMostPopularRealEstatesIsActive && <MostPopularRealEstates agencyId={agency?.id} />}
                         {addNewRealEstateIsActive && <AddNewRealEstate agencyId={agency?.id} />}
                     </>

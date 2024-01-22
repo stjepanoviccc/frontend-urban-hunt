@@ -11,18 +11,13 @@ interface Props {
 
 const Calendar: React.FC<Props> = ({ agencyId }) => {
   const { user } = useAuth();
-  const [userId, setUserId] = useState<any>(null);
   const [data, setData] = useState<any[]>([]);
 
-  const handleSetUserId = (id: number) => {
-    setUserId({ id });
-  };
-
-  const submitCalendarAcceptRequest = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitCalendarAcceptRequest = (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
     event?.preventDefault;
-
+    console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_ACCEPT_REQUEST, {userId, agencyId}, {
+      axios.post(API_ENDPOINTS.CALENDAR_ACCEPT_REQUEST + "?tourId=" + tourId, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
@@ -32,11 +27,11 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
     }
   }
 
-  const submitCalendarDeleteRequest = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitCalendarDeleteRequest = (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
     event?.preventDefault;
-
+    console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST,{userId, agencyId}, {
+      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST  + "?tourId=" + tourId, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
@@ -50,7 +45,10 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
     const findCalendarById = async () => {
 
       try {
-        const response = await axios.get(API_ENDPOINTS.FIND_CALENDAR_BY_AGENT_USER_ID, {
+        let endpoint = API_ENDPOINTS.FIND_CALENDAR;
+        // check is owner if yes then proceed with agency id, if not then proceed with agent id from token.
+        {user?.role == "OWNER" ? endpoint = endpoint + "ByAgency" + "?agencyId=" + agencyId : ""}
+        const response = await axios.get(endpoint, {
           headers: {
             'Authorization': `Bearer ${user?.accessToken}`
           },
@@ -70,17 +68,16 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
       {data.map((dataItem, index) => (
         <TableItem key={index} data={dataItem}>
           <td className="px-6 py-4">
-            <form onSubmit={submitCalendarAcceptRequest}>
-              <input type="hidden" name="id" value="1" />
-              <button onClick={() => handleSetUserId(dataItem.id)} type="submit" className="font-medium text-green-200 hover:underline mr-4">Accept</button>
+            <form onSubmit={(event) => submitCalendarAcceptRequest(event, dataItem.id)}>
+              <button type="submit" className="font-medium text-green-200 hover:underline mr-4">Accept</button>
             </form>
-            <form onSubmit={submitCalendarDeleteRequest}>
-              <input type="hidden" name="id" value="1" />
-              <button onClick={() => handleSetUserId(dataItem.id)} type="submit" className="font-medium text-red-200 hover:underline">Delete</button>
+            <form onClick={(event) => submitCalendarDeleteRequest(event, dataItem.id)}>
+              <button  type="submit" className="font-medium text-red-200 hover:underline">Delete</button>
             </form>
           </td>
         </TableItem>
       ))}
+
     </Table>
   )
 }

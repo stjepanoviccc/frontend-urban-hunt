@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { API_ENDPOINTS } from "../../../config/apiConfig";
 import Wrap from "../../UI/Wrap";
-import ManageRealEstates from "../AgentAndOwner/old-manage-estates";
 import AddNewRealEstate from "./AddNewRealEstate";
 import Calendar from "../AgentAndOwner/Calendar";
 
@@ -53,12 +52,12 @@ const Agent = () => {
         <h1 className="text-4xl">Agent Dashboard</h1>
     </div>
     <div className="pt-12 text-center flex flex-col justify-between xl:flex-row items-center gap-y-4 pb-4">
-        <button className={`text-lg max-w-[200px] ${manageRealEstatesIsActive ? "my-link-active" : "my-link"}`} onClick={toggleManageRealEstates}>Manage Real Estates</button>
+        { /** <button className={`text-lg max-w-[200px] ${manageRealEstatesIsActive ? "my-link-active" : "my-link"}`} onClick={toggleManageRealEstates}>Manage Real Estates</button> **/}
         <button className={`text-lg max-w-[200px] ${seeCalendarIsActive ? "my-link-active" : "my-link"}`} onClick={toggleCalendar}>Calendar</button>
         <button className={`text-lg max-w-[200px] ${addNewRealEstateIsActive ? "my-link-active" : "my-link"}`} onClick={toggleAddNewRealEstate}>Add New Real Estate</button>
     </div>
     <div className="pt-12">
-        {manageRealEstatesIsActive && <ManageRealEstates agencyId={agency?.id} />}
+        { /** manageRealEstatesIsActive && <ManageRealEstates agencyId={agency?.id} /> **/}
         {addNewRealEstateIsActive && <AddNewRealEstate agencyId={agency?.id} />}
         {seeCalendarIsActive && <Calendar agencyId={agency?.id} />}
     </div>

@@ -48,7 +48,7 @@ const Home = () => {
       show("New Tour Has Been Added Successfully!", "SUCCESS");
 
     } catch (error) {
-      console.log(error);
+      show("You must be logged in to send request for tour.", "NOT");
     }
   }
 

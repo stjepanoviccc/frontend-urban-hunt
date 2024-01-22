@@ -20,13 +20,14 @@ export const API_DELETE_AGENT_PATH = '/owner/deleteAgent';
 export const API_FIND_AGENTS_BY_AGENCY_ID_PATH = '/owner/findAllAgentsByAgencyId';
 export const API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH = '/owner/findMostPopularAgentsByAgencyId';
 // agent
+export const API_FIND_REAL_ESTATES_BY_AGENT_ID_PATH = '/agent/findAllRealEstatesByAgencyId';
 export const API_FIND_AGENCY_BY_AGENT_ID_PATH = '/agent/findAgencyByAgentId';
 export const API_ADD_NEW_REAL_ESTATE_PATH = '/agent/createRealEstate';
 // agent+owner junction
-export const API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH = '/agentAndOwner/findRealEstatesByAgencyId';
+// export const API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH = '/agentAndOwner/findRealEstatesByAgencyId';
 export const API_CALENDAR_ACCEPT_REQUEST_PATH = '/agentAndOwner/calendarAcceptRequest';
 export const API_CALENDAR_DELETE_REQUEST_PATH = '/agentAndOwner/calendarDeleteRequest';
-export const API_FIND_CALENDAR_BY_USER_ID = '/agentAndOwner/findCalendarByAgentUserId';
+export const API_FIND_CALENDAR = '/agentAndOwner/findCalendar';
 // agent+owner+administrator junction
 export const API_REAL_ESTATE_DEACTIVATE_PATH = '/deactivateRealEstate';
 export const API_REAL_ESTATE_ACTIVATE_PATH = '/activateRealEstate';
@@ -55,11 +56,12 @@ export const API_ENDPOINTS = {
   // agent
   FIND_AGENCY_BY_AGENT_ID: `${API_BASE_URL}${API_FIND_AGENCY_BY_AGENT_ID_PATH}`,
   ADD_NEW_REAL_ESTATE: `${API_BASE_URL}${API_ADD_NEW_REAL_ESTATE_PATH}`,
+  FIND_REAL_ESTATES_BY_AGENT_ID: `${API_BASE_URL}${API_FIND_AGENCY_BY_AGENT_ID_PATH}`,
   // agent+owner junction
-  FIND_REAL_ESTATES_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH}`,
+ // FIND_REAL_ESTATES_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH}`,
   CALENDAR_ACCEPT_REQUEST: `${API_BASE_URL}${API_CALENDAR_ACCEPT_REQUEST_PATH}`,
   CALENDAR_DELETE_REQUEST: `${API_BASE_URL}${API_CALENDAR_DELETE_REQUEST_PATH}`,
-  FIND_CALENDAR_BY_AGENT_USER_ID: `${API_BASE_URL}${API_FIND_CALENDAR_BY_USER_ID}`,
+  FIND_CALENDAR: `${API_BASE_URL}${API_FIND_CALENDAR}`,
   // agent+owner+administrator junction
   REAL_ESTATE_DEACTIVATE: `${API_BASE_URL}${API_REAL_ESTATE_DEACTIVATE_PATH}`,
   REAL_ESTATE_ACTIVATE: `${API_BASE_URL}${API_REAL_ESTATE_ACTIVATE_PATH}`

@@ -23,6 +23,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         localStorage.removeItem("accessToken");
         localStorage.removeItem("expiresIn");
         localStorage.removeItem("role");
+        window.location.href = "/";
     }
 
     useEffect(() => {

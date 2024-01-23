@@ -16,6 +16,15 @@ import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
 
 const Home = () => {
+  const [searchData, setSearchData] = useState<any>({
+    location: '',
+    surfaceFrom: 0,
+    surfaceTo: 100000,
+    priceFrom: 0,
+    priceTo: 100000,
+    transactionType: '',
+    realEstateType: '',
+  })
   const [formData, setFormData] = useState<any>({
     realEstateId: 0,
     accepted: false,
@@ -23,7 +32,7 @@ const Home = () => {
     startDate: 1
   })
 
-  const {show} = useTopBar();
+  const { show } = useTopBar();
   const [data, setData] = useState<RealEstate[]>([]);
   const { user } = useAuth();
   const [isFilteringFormActive, setIsFilteringFormActive] = useState(false);
@@ -34,7 +43,7 @@ const Home = () => {
 
   const submitCreateTour = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    if(formData.startDate == 1) {
+    if (formData.startDate == 1) {
       show("Please select start date!", "NOT");
       return;
     }
@@ -59,6 +68,49 @@ const Home = () => {
       finished: false,
       startTime,
     });
+  };
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+
+    setSearchData((prevValues: any) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+    submitSearchFormData();
+  };
+
+  const handleSelectChange = (e: any) => {
+    const { name, value } = e.target;
+
+    setSearchData((prevValues: any) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+    submitSearchFormData();
+  };
+
+  const submitSearchFormData = async () => {
+    try {
+      console.log(searchData);
+      const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES +
+        "?location=" + searchData.location +
+        "&surfaceFrom=" + searchData.surfaceFrom +
+        "&surfaceTo=" + searchData.surfaceTo +
+        "&priceFrom=" + searchData.priceFrom +
+        "&priceTo=" + searchData.priceTo +
+        "&realEstateType=" + searchData.realEstateType +
+        "&transactionType=" + searchData.transactionType
+        , {
+
+          headers: {
+            'Authorization': `Bearer ${user?.accessToken}`,
+          },
+        })
+      setData(response.data);
+    } catch (error) {
+      console.error('Error submitting search data:', error);
+    }
   };
 
   useEffect(() => {
@@ -91,37 +143,35 @@ const Home = () => {
           {isFilteringFormActive ? 'Hide' : 'Show'}
           <FontAwesomeIcon icon={faCaretDown} size={"lg"} className="pl-2" />
         </button>
-        <div className="pt-12">
+        <div className="py-12">
           <form className={`${isFilteringFormActive ? 'opacity-100 max-h-full' : 'opacity-0 max-h-0'}  transition duration-300`}>
             <div className="flex flex-col lg:flex-row justify-between gap-x-12 gap-y-8">
               <FormWrap label="Location" className="flex justify-center items-center">
-                <input name="location" type="text" className="my-input max-w-64" />
+                <input name="location" type="text" className="my-input max-w-64" value={searchData.location} onChange={handleInputChange} />
               </FormWrap>
               <FormWrap label="Surface" className="flex justify-center items-center">
-                <input name="surfaceFrom" type="text" className="my-input max-w-64 text-center" placeholder="Surface from" />
-                <input name="surfaceTo" type="text" className="my-input max-w-64 text-center" placeholder="Surface to" />
+                <input name="surfaceFrom" type="number" min="0" className="my-input max-w-64 text-center" placeholder="Surface from" value={searchData.surfaceFrom} onChange={handleInputChange} />
+                <input name="surfaceTo" type="number" min="0" className="my-input max-w-64 text-center" placeholder="Surface to" value={searchData.surfaceTo} onChange={handleInputChange} />
               </FormWrap>
               <FormWrap label="Price" className="flex justify-center items-center">
-                <input name="priceFrom" type="text" className="my-input max-w-64 text-center" placeholder="Price from" />
-                <input name="priceTo" type="text" className="my-input max-w-64 text-center" placeholder="Price to" />
+                <input name="priceFrom" type="number" min="0" className="my-input max-w-64 text-center" placeholder="Price from" value={searchData.priceFrom} onChange={handleInputChange} />
+                <input name="priceTo" type="number" min="0" className="my-input max-w-64 text-center" placeholder="Price to" value={searchData.priceTo} onChange={handleInputChange} />
               </FormWrap>
               <FormWrap label="Transaction Type" className="flex justify-center items-center">
-                <select name="transactionType" className="my-input max-w-64">
+                <select name="transactionType" className="my-input max-w-64" value={searchData.transactionType} onChange={handleSelectChange}>
+                  <option value="">All</option>
                   <option value="Sale">Sale</option>
                   <option value="Rent">Rent</option>
                 </select>
               </FormWrap>
               <FormWrap label="Real Estate Type" className="flex justify-center items-center">
-                <select name="realEstateType" className="my-input max-w-64">
+                <select name="realEstateType" className="my-input max-w-64" value={searchData.realEstateType} onChange={handleSelectChange}>
+                  <option value="">All</option>
                   <option value="House">House</option>
                   <option value="Apartment">Apartment</option>
                   <option value="Office">Office</option>
                 </select>
               </FormWrap>
-            </div>
-            <div className="mt-6">
-              <button type="submit" className="my-primary-btn">Apply</button>
-              <button type="submit" className="ml-4 my-ghost-btn">Clear</button>
             </div>
           </form>
         </div>

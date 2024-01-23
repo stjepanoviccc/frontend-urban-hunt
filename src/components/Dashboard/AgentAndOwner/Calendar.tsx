@@ -61,7 +61,7 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
     };
 
     findCalendarById();
-  }, []);
+  }, [data]);
 
   return (
     <Table headings={["Tour ID", "Real Estate ID", "User ID", "Action"]}>

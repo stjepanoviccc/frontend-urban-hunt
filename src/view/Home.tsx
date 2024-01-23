@@ -16,15 +16,15 @@ import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
 
 const Home = () => {
-  const [count,setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const [searchData, setSearchData] = useState<any>({
     location: '',
     surfaceFrom: 0,
     surfaceTo: 100000,
     priceFrom: 0,
     priceTo: 100000,
-    transactionType: 'SALE',
-    realEstateType: 'HOUSE',
+    transactionType: '',
+    realEstateType: '',
   })
   const [formData, setFormData] = useState<any>({
     realEstateId: 0,
@@ -71,28 +71,21 @@ const Home = () => {
     });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
 
     setSearchData((prevValues: any) => ({
       ...prevValues,
       [name]: value,
     }));
+    setCount(prev => prev + 1);
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setSearchData((prevValues: any) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
 
   const submitSearchFormData = async () => {
     try {
       console.log(searchData);
-      const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES + "Filtered" +
+      const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES +
         "?location=" + searchData.location +
         "&surfaceFrom=" + searchData.surfaceFrom +
         "&surfaceTo=" + searchData.surfaceTo +
@@ -101,39 +94,85 @@ const Home = () => {
         "&realEstateType=" + searchData.realEstateType +
         "&transactionType=" + searchData.transactionType
         , {
-
           headers: {
             'Authorization': `Bearer ${user?.accessToken}`,
           },
         })
+
+      if (user?.role == "GUEST") {
+        for (let item in response.data) {
+          let id = response.data[item].id;
+          let isLiked = await axios.get(API_ENDPOINTS.CHECK_IS_LIKED, {
+            headers: {
+              'Authorization': `Bearer ${user?.accessToken}`,
+              'Content-Type': 'application/json',
+              body: id
+            },
+          });
+          response.data[item].isLiked = isLiked;
+        }
+      }
+
       setData(response.data);
     } catch (error) {
       console.error('Error submitting search data:', error);
     }
   };
 
-  useEffect(() => {
-    const fetchRealEstates = async () => {
-      try {
-        const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES, {
-          headers: {
-            'Authorization': `Bearer ${user?.accessToken}`,
-            'Content-Type': 'application/json'
-          },
-        });
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const submitSendLike = async (event: React.FormEvent<HTMLFormElement>, isLiked: boolean, realEstateId: number) => {
+    event.preventDefault();
+    if (user?.role != "GUEST") {
+      show("You must be logged in as Guest to like/dislike", "NOT");
+      return;
+    }
+    try {
+      axios.post(API_ENDPOINTS.SEND_LIKE, { isLiked, realEstateId }, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`,
+        }
+      })
+      fetchRealEstates();
+    } catch (error) {
+      console.log("Error sending like/dislike", error);
+    }
+  }
 
+  const fetchRealEstates = async () => {
+    try {
+      const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (user?.role == "GUEST") {
+        for (let item in response.data) {
+          let id = response.data[item].id;
+          let isLiked = await axios.get(API_ENDPOINTS.CHECK_IS_LIKED + "?realEstateId=" + id, {
+            headers: {
+              'Authorization': `Bearer ${user?.accessToken}`
+            },
+          });
+
+          response.data[item].isLiked = isLiked.data;
+
+        }
+      }
+      console.log(response.data);
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
     fetchRealEstates();
   }, [user]);
 
   useEffect(() => {
-    if(count > 0) {
+    if (count > 0) {
       submitSearchFormData();
-      setCount(prev => prev+1);
     }
   }, [searchData]);
 
@@ -164,13 +203,15 @@ const Home = () => {
                 <input name="priceTo" type="number" min="0" className="my-input max-w-64 text-center" placeholder="Price to" value={searchData.priceTo} onChange={handleInputChange} />
               </FormWrap>
               <FormWrap label="Transaction Type" className="flex justify-center items-center">
-                <select name="transactionType" className="my-input max-w-64" value={searchData.transactionType} onChange={handleSelectChange}>
+                <select name="transactionType" className="my-input max-w-64" value={searchData.transactionType} onChange={handleInputChange}>
+                  <option value="">All</option>
                   <option value="SALE">Sale</option>
                   <option value="RENT">Rent</option>
                 </select>
               </FormWrap>
               <FormWrap label="Real Estate Type" className="flex justify-center items-center">
-                <select name="realEstateType" className="my-input max-w-64" value={searchData.realEstateType} onChange={handleSelectChange}>
+                <select name="realEstateType" className="my-input max-w-64" value={searchData.realEstateType} onChange={handleInputChange}>
+                  <option value="">All</option>
                   <option value="HOUSE">House</option>
                   <option value="APARTMENT">Apartment</option>
                   <option value="OFFICE">Office</option>
@@ -206,14 +247,21 @@ const Home = () => {
                 />
                 <button type="submit" className="my-ghost-btn ml-4 my-4">Send</button>
               </form>
-              <div className="border-t-2 border-primary py-2 flex justify-around">
-                <button className="border-2 border-primary p-3 rounded-full">
-                  <FontAwesomeIcon icon={faThumbsUp} className="pr-2" />LIKE
-                </button>
-                <button className="border-2 border-primary p-3 rounded-full">
-                  <FontAwesomeIcon icon={faThumbsDown} className="pr-2" />DISS
-                </button>
-              </div>
+              {user?.role === "GUEST" && (
+                <div className="border-t-2 border-primary py-2 flex justify-around">
+                  <form onSubmit={(event) => submitSendLike(event, true, dataItem.id)}>
+                    <button className={`${dataItem.isLiked === true ? "border-2 border-primary p-3 rounded-full text-white bg-primary" : "border-2 border-primary p-3 rounded-full"}`}>
+                      <FontAwesomeIcon icon={faThumbsUp} className="pr-2" /> LIKE
+                    </button>
+                  </form>
+                  <form onSubmit={(event) => submitSendLike(event, false, dataItem.id)}>
+                    <button className={`${dataItem.isLiked === false ? "border-2 border-primary p-3 rounded-full text-white bg-primary ml-4" : "border-2 border-primary p-3 rounded-full ml-4"}`}>
+                      <FontAwesomeIcon icon={faThumbsDown} className="pr-2" /> DISS
+                    </button>
+                  </form>
+                </div>
+              )}
+
             </div>
           ))}
         </div>

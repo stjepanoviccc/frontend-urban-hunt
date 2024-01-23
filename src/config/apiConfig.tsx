@@ -3,8 +3,11 @@ const API_BASE_URL = 'http://localhost:3000';
 export const API_REGISTER_PATH = '/auth/register';
 export const API_LOGIN_PATH = '/auth/login';
 export const API_FIND_ALL_REAL_ESTATES_PATH = '/findAllRealEstates';
+export const API_FIND_ALL_REAL_ESTATES_FILTERED_PATH = '/findAllRealEstatesFiltered';
 // guest
 export const API_CREATE_TOUR_PATH = '/createTour';
+export const API_SEND_LIKE = '/sendLike';
+export const API_CHECK_IS_LIKED = '/checkIsLiked';
 // admin
 export const API_DEACTIVATE_USER_PATH = '/admin/deactivateUser';
 export const API_ACTIVATE_USER_PATH = '/admin/activateUser';
@@ -39,8 +42,11 @@ export const API_ENDPOINTS = {
   REGISTER_USER: `${API_BASE_URL}${API_REGISTER_PATH}`,
   LOGIN: `${API_BASE_URL}${API_LOGIN_PATH}`,
   FIND_ALL_REAL_ESTATES: `${API_BASE_URL}${API_FIND_ALL_REAL_ESTATES_PATH}`,
+  FIND_ALL_REAL_ESTATES_FILTERED: `${API_BASE_URL}${API_FIND_ALL_REAL_ESTATES_FILTERED_PATH}`,
   // guest
   CREATE_TOUR: `${API_BASE_URL}${API_CREATE_TOUR_PATH}`,
+  SEND_LIKE: `${API_BASE_URL}${API_SEND_LIKE}`,
+  CHECK_IS_LIKED: `${API_BASE_URL}${API_CHECK_IS_LIKED}`,
   // admin role
   DEACTIVATE_USER: `${API_BASE_URL}${API_DEACTIVATE_USER_PATH}`,
   ACTIVATE_USER: `${API_BASE_URL}${API_ACTIVATE_USER_PATH}`,
@@ -68,5 +74,5 @@ export const API_ENDPOINTS = {
   FIND_CALENDAR: `${API_BASE_URL}${API_FIND_CALENDAR}`,
   // agent+owner+administrator junction
   REAL_ESTATE_DEACTIVATE: `${API_BASE_URL}${API_REAL_ESTATE_DEACTIVATE_PATH}`,
-  REAL_ESTATE_ACTIVATE: `${API_BASE_URL}${API_REAL_ESTATE_ACTIVATE_PATH}`
+  REAL_ESTATE_ACTIVATE: `${API_BASE_URL}${API_REAL_ESTATE_ACTIVATE_PATH}`,
 };

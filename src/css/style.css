@@ -49,3 +49,7 @@ body {
 .my-link-active {
     @apply text-primary relative transition duration-300 border-b-[3px] border-primary pb-2;
 }
+
+.my-like-active {
+    @apply border-2 border-primary p-3 rounded-full text-white bg-primary
+}

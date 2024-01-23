@@ -17,7 +17,8 @@ type RealEstate = {
     transactionType: TransactionType,
     active: boolean,
     agent: Agent,
-    agency: Agency;
+    agency: Agency,
+    isLiked?: boolean | string
 }
 
 export default RealEstate;

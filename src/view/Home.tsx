@@ -16,14 +16,15 @@ import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
 
 const Home = () => {
+  const [count,setCount] = useState<number>(0);
   const [searchData, setSearchData] = useState<any>({
     location: '',
     surfaceFrom: 0,
     surfaceTo: 100000,
     priceFrom: 0,
     priceTo: 100000,
-    transactionType: '',
-    realEstateType: '',
+    transactionType: 'SALE',
+    realEstateType: 'HOUSE',
   })
   const [formData, setFormData] = useState<any>({
     realEstateId: 0,
@@ -70,30 +71,28 @@ const Home = () => {
     });
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setSearchData((prevValues: any) => ({
       ...prevValues,
       [name]: value,
     }));
-    submitSearchFormData();
   };
 
-  const handleSelectChange = (e: any) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
 
     setSearchData((prevValues: any) => ({
       ...prevValues,
       [name]: value,
     }));
-    submitSearchFormData();
   };
 
   const submitSearchFormData = async () => {
     try {
       console.log(searchData);
-      const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES +
+      const response = await axios.get(API_ENDPOINTS.FIND_ALL_REAL_ESTATES + "Filtered" +
         "?location=" + searchData.location +
         "&surfaceFrom=" + searchData.surfaceFrom +
         "&surfaceTo=" + searchData.surfaceTo +
@@ -131,6 +130,13 @@ const Home = () => {
     fetchRealEstates();
   }, [user]);
 
+  useEffect(() => {
+    if(count > 0) {
+      submitSearchFormData();
+      setCount(prev => prev+1);
+    }
+  }, [searchData]);
+
   return (
     <Wrap>
       <div className="pt-12 text-center">
@@ -159,17 +165,15 @@ const Home = () => {
               </FormWrap>
               <FormWrap label="Transaction Type" className="flex justify-center items-center">
                 <select name="transactionType" className="my-input max-w-64" value={searchData.transactionType} onChange={handleSelectChange}>
-                  <option value="">All</option>
-                  <option value="Sale">Sale</option>
-                  <option value="Rent">Rent</option>
+                  <option value="SALE">Sale</option>
+                  <option value="RENT">Rent</option>
                 </select>
               </FormWrap>
               <FormWrap label="Real Estate Type" className="flex justify-center items-center">
                 <select name="realEstateType" className="my-input max-w-64" value={searchData.realEstateType} onChange={handleSelectChange}>
-                  <option value="">All</option>
-                  <option value="House">House</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="Office">Office</option>
+                  <option value="HOUSE">House</option>
+                  <option value="APARTMENT">Apartment</option>
+                  <option value="OFFICE">Office</option>
                 </select>
               </FormWrap>
             </div>

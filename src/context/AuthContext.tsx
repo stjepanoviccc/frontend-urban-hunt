@@ -17,6 +17,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         localStorage.setItem('accessToken', userTokenState.accessToken);
         localStorage.setItem('expiresIn', userTokenState.expiresIn);
         localStorage.setItem('role', userTokenState.role);
+        window.location.href = "/";
     }
     const logout = () => {
         setUser(null);

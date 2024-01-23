@@ -20,9 +20,11 @@ export const API_DELETE_AGENT_PATH = '/owner/deleteAgent';
 export const API_FIND_AGENTS_BY_AGENCY_ID_PATH = '/owner/findAllAgentsByAgencyId';
 export const API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH = '/owner/findMostPopularAgentsByAgencyId';
 // agent
+export const API_FIND_REAL_ESTATE_BY_ID_PATH = '/agent/findRealEstateById';
 export const API_FIND_REAL_ESTATES_BY_AGENT_ID_PATH = '/agent/findAllRealEstatesByAgencyId';
 export const API_FIND_AGENCY_BY_AGENT_ID_PATH = '/agent/findAgencyByAgentId';
 export const API_ADD_NEW_REAL_ESTATE_PATH = '/agent/createRealEstate';
+export const API_EDIT_REAL_ESTATE_PATH = '/agent/editRealEstate';
 // agent+owner junction
 // export const API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH = '/agentAndOwner/findRealEstatesByAgencyId';
 export const API_CALENDAR_ACCEPT_REQUEST_PATH = '/agentAndOwner/calendarAcceptRequest';
@@ -54,8 +56,10 @@ export const API_ENDPOINTS = {
   FIND_AGENTS_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_AGENTS_BY_AGENCY_ID_PATH}`,
   FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH: `${API_BASE_URL}${API_FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH}`,
   // agent
+  FIND_REAL_ESTATE_BY_ID: `${API_BASE_URL}${API_FIND_REAL_ESTATE_BY_ID_PATH}`,
   FIND_AGENCY_BY_AGENT_ID: `${API_BASE_URL}${API_FIND_AGENCY_BY_AGENT_ID_PATH}`,
   ADD_NEW_REAL_ESTATE: `${API_BASE_URL}${API_ADD_NEW_REAL_ESTATE_PATH}`,
+  EDIT_REAL_ESTATE: `${API_BASE_URL}${API_EDIT_REAL_ESTATE_PATH}`,
   FIND_REAL_ESTATES_BY_AGENT_ID: `${API_BASE_URL}${API_FIND_AGENCY_BY_AGENT_ID_PATH}`,
   // agent+owner junction
  // FIND_REAL_ESTATES_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH}`,

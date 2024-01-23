@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { API_ENDPOINTS } from "../../../config/apiConfig";
 import Table from "../../UI/TableUI/Table"
-import TableItem from "../../UI/TableUI/UserTableItem"
+import CalendarTableItem from "../../UI/TableUI/CalendarTableItem";
 
 interface Props {
   agencyId: number;
@@ -14,10 +14,10 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
   const [data, setData] = useState<any[]>([]);
 
   const submitCalendarAcceptRequest = (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
-    event?.preventDefault;
+    event.preventDefault();
     console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_ACCEPT_REQUEST + "?tourId=" + tourId, {
+      axios.post(API_ENDPOINTS.CALENDAR_ACCEPT_REQUEST + "?tourId=" + tourId, {}, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
@@ -28,10 +28,10 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
   }
 
   const submitCalendarDeleteRequest = (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
-    event?.preventDefault;
+    event.preventDefault();
     console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST  + "?tourId=" + tourId, {
+      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST  + "?tourId=" + tourId, {}, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
@@ -64,18 +64,22 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
   }, []);
 
   return (
-    <Table headings={["Tour ID", "Real Estate ID", "User ID", "Tour Date", "Action"]}>
+    <Table headings={["Tour ID", "Real Estate ID", "User ID", "Action"]}>
       {data.map((dataItem, index) => (
-        <TableItem key={index} data={dataItem}>
-          <td className="px-6 py-4">
-            <form onSubmit={(event) => submitCalendarAcceptRequest(event, dataItem.id)}>
-              <button type="submit" className="font-medium text-green-200 hover:underline mr-4">Accept</button>
+        <CalendarTableItem key={index} data={dataItem}>
+          <td className="px-6 py-4 flex justify-center items-center">
+            <div>
+            <form onSubmit={(event) => submitCalendarAcceptRequest(event, dataItem.id)} >
+              <button type="submit" className="font-medium text-green-200 hover:underline mr-4 text-center">Accept</button>
             </form>
+            </div>
+            <div>
             <form onClick={(event) => submitCalendarDeleteRequest(event, dataItem.id)}>
-              <button  type="submit" className="font-medium text-red-200 hover:underline">Delete</button>
+              <button  type="submit" className="font-medium text-red-200 hover:underline text-center">Delete</button>
             </form>
+            </div>
           </td>
-        </TableItem>
+        </CalendarTableItem>
       ))}
 
     </Table>

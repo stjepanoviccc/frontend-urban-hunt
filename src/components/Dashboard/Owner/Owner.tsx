@@ -24,6 +24,10 @@ const Owner = () => {
     const [seeMostPopularRealEstatesIsActive, setSeeMostPopularRealEstatesIsActive] = useState(false);
     const [addNewRealEstateIsActive, setAddNewRealEstateIsActive] = useState(false);
 
+    const toggleDefineAgency = () => {
+        window.location.href = "/dashboard";
+    }
+
     const toggleManageAgents = () => {
         setManageAgentsIsActive(true);
         setSeeMostPopularAgentsIsActive(false);
@@ -142,7 +146,9 @@ const Owner = () => {
                         {addNewRealEstateIsActive && <AddNewRealEstate agencyId={agency?.id} />}
                     </>
                 ) : (
-                    <DefineAgency />
+                    <>
+                        {<DefineAgency toggleAgencyVisibility={toggleDefineAgency} /> }
+                    </>
                 )}
             </div>
         </Wrap>

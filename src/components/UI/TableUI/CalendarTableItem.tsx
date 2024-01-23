@@ -5,16 +5,15 @@ interface Props {
     children?: ReactNode;
 }
 
-const UserTableItem: React.FC<Props> = ({ data, children }) => {
+const CalendarTableItem: React.FC<Props> = ({ data, children }) => {
     return (
         <tr className="bg-secondary border-b border-primary">
-            <td className="px-6 py-4">Tour id</td>
-            <td className="px-6 py-4">Real Estate ID</td>
-            <td className="px-6 py-4">User ID</td>
-            <td className="px-6 py-4">Tour Date</td>
+            <td className="px-6 py-4">{data.id}</td>
+            <td className="px-6 py-4">{data.realEstateId}</td>
+            <td className="px-6 py-4">{data.agentId}</td>
             {children}
         </tr>
     );
 };
 
-export default UserTableItem;
+export default CalendarTableItem;

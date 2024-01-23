@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useAuth } from "../../../context/AuthContext"
+import { Link } from "react-router-dom"
 import { API_ENDPOINTS, API_REAL_ESTATE_ACTIVATE_PATH, API_REAL_ESTATE_DEACTIVATE_PATH } from "../../../config/apiConfig"
 import Table from "../../UI/TableUI/Table"
 import RealEstateTableItem from "../../UI/TableUI/RealEstateTableItem"
@@ -72,19 +73,25 @@ const ManageRealEstates: React.FC = () => {
   return (
     <Table headings={["Real Estate ID", "Location", "Surface", "Price", "Sale/Rent", "Type", "Action"]}>
       {data.map((dataItem, index) => (
-        <RealEstateTableItem key={index} data={dataItem}>
-          <td className="px-6 py-4">
-            <form action={dataItem.active ?
-              API_REAL_ESTATE_DEACTIVATE_PATH : API_REAL_ESTATE_ACTIVATE_PATH}
-              onSubmit={dataItem.active ? (event) => submitRealEstateDeactivate(dataItem.id, event) : (event) => submitRealEstateActivate(dataItem.id, event)}>
-              {dataItem.active ? (
-                <button type="submit" className="font-medium text-red-200 hover:underline">Deactivate</button>
-              ) : (
-                <button type="submit" className="font-medium text-green-200 hover:underline">Activate</button>
-              )}
-            </form>
-          </td>
-        </RealEstateTableItem>
+          <RealEstateTableItem key={index} data={dataItem}>
+            <td className="px-6 py-4">
+              <form action={dataItem.active ?
+                API_REAL_ESTATE_DEACTIVATE_PATH : API_REAL_ESTATE_ACTIVATE_PATH}
+                onSubmit={dataItem.active ? (event) => submitRealEstateDeactivate(dataItem.id, event) : (event) => submitRealEstateActivate(dataItem.id, event)}>
+                {dataItem.active ? (
+                  <>
+                    <button type="submit" className="font-medium text-red-200 hover:underline">Deactivate</button>
+                    <Link to={`/edit-real-estate?id=${dataItem.id}`} className="ml-4 font-medium text-blue-200 hover:underline">Edit</Link>
+                  </>
+                ) : (
+                  <>
+                    <button type="submit" className="font-medium text-green-200 hover:underline">Activate</button>
+                    <Link to={`/edit-real-estate?id=${dataItem.id}`} className="ml-4 font-medium text-blue-200 hover:underline">Edit</Link>
+                  </>
+                )}
+              </form>
+            </td>
+          </RealEstateTableItem>
       ))}
     </Table>
   )

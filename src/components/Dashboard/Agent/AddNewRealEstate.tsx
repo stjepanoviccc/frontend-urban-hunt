@@ -87,7 +87,6 @@ const AddNewRealEstate: React.FC<Props> = ({ agencyId }) => {
     }
   }
 
-
   return (
     <>
       <form className="flex flex-col gap-y-6 pb-12" onSubmit={submitAddNewRealEstate}>

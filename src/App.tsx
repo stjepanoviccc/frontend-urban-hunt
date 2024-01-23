@@ -6,6 +6,7 @@ import ErrorPage from "./view/ErrorPage";
 import Home from "./view/Home";
 import Dashboard from "./view/Dashboard";
 import AboutUs from "./view/AboutUs";
+import EditRealEstate from "./components/Dashboard/Agent/EditRealEstate";
 
 const App = () => {
   const router = createBrowserRouter([{
@@ -15,7 +16,8 @@ const App = () => {
     children: [
       { index: true, element: <Home /> },
       { path: 'dashboard', element: <Dashboard /> },
-      { path: 'about-us', element: <AboutUs /> }
+      { path: 'about-us', element: <AboutUs /> },
+      { path: 'edit-real-estate', element: <EditRealEstate /> } 
     ],
   }])
 

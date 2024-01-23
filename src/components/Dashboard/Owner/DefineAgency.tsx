@@ -7,7 +7,11 @@ import { API_ENDPOINTS, API_CREATE_AGENCY_PATH } from "../../../config/apiConfig
 import FormWrap from "../../UI/FormUI/FormWrap"
 import AgencyInitialize from "../../../model/forms/AgencyInitialize";
 
-const DefineAgency: React.FC = () => {
+interface Props {
+  toggleAgencyVisibility: () => void;
+}
+
+const DefineAgency: React.FC<Props> = ({toggleAgencyVisibility}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {show} = useTopBar();
   const { user } = useAuth();
@@ -41,6 +45,7 @@ const DefineAgency: React.FC = () => {
         },
       });
       show("Agency Created Successfully!", "SUCCESS");
+      toggleAgencyVisibility();
     } catch (error) {
       console.error('Error:', error);
     }

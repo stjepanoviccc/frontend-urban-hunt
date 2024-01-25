@@ -11,6 +11,7 @@ type User = {
     password: string,
     role: Role,
     active: boolean
+    averageRating?: number | null;
 }
 
 export default User;

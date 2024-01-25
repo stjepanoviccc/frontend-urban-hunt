@@ -53,3 +53,7 @@ body {
 .my-like-active {
     @apply border-2 border-primary p-3 rounded-full text-white bg-primary
 }
+
+.my-no-content {
+    @apply text-primary pt-6 text-lg text-center
+}

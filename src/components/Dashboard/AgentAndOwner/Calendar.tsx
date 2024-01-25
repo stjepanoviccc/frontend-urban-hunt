@@ -21,7 +21,7 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
-      } );
+      });
     } catch (error) {
       console.log("Submitting accept calendar request failed: ", error);
     }
@@ -31,7 +31,7 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
     event.preventDefault();
     console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST  + "?tourId=" + tourId, {}, {
+      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST + "?tourId=" + tourId, {}, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
@@ -47,7 +47,7 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
       try {
         let endpoint = API_ENDPOINTS.FIND_CALENDAR;
         // check is owner if yes then proceed with agency id, if not then proceed with agent id from token.
-        {user?.role == "OWNER" ? endpoint = endpoint + "ByAgency" + "?agencyId=" + agencyId : ""}
+        { user?.role == "OWNER" ? endpoint = endpoint + "ByAgency" + "?agencyId=" + agencyId : "" }
         const response = await axios.get(endpoint, {
           headers: {
             'Authorization': `Bearer ${user?.accessToken}`
@@ -64,25 +64,28 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
   }, [data]);
 
   return (
-    <Table headings={["Tour ID", "Real Estate ID", "User ID", "Action"]}>
-      {data.map((dataItem, index) => (
-        <CalendarTableItem key={index} data={dataItem}>
-          <td className="px-6 py-4 flex justify-center items-center">
-            <div>
-            <form onSubmit={(event) => submitCalendarAcceptRequest(event, dataItem.id)} >
-              <button type="submit" className="font-medium text-green-200 hover:underline mr-4 text-center">Accept</button>
-            </form>
-            </div>
-            <div>
-            <form onClick={(event) => submitCalendarDeleteRequest(event, dataItem.id)}>
-              <button  type="submit" className="font-medium text-red-200 hover:underline text-center">Delete</button>
-            </form>
-            </div>
-          </td>
-        </CalendarTableItem>
-      ))}
+    <>
+      <Table headings={["Tour ID", "Real Estate ID", "User ID", "Action"]}>
+        {data.map((dataItem, index) => (
+          <CalendarTableItem key={index} data={dataItem}>
+            <td className="px-6 py-4 flex justify-center items-center">
+              <div>
+                <form onSubmit={(event) => submitCalendarAcceptRequest(event, dataItem.id)} >
+                  <button type="submit" className="font-medium text-green-200 hover:underline mr-4 text-center">Accept</button>
+                </form>
+              </div>
+              <div>
+                <form onClick={(event) => submitCalendarDeleteRequest(event, dataItem.id)}>
+                  <button type="submit" className="font-medium text-red-200 hover:underline text-center">Delete</button>
+                </form>
+              </div>
+            </td>
+          </CalendarTableItem>
+        ))}
+      </Table>
+      {data.length == 0 && <p className="my-no-content">No content to show</p>}
+    </>
 
-    </Table>
   )
 }
 

@@ -71,8 +71,9 @@ const ManageRealEstates: React.FC = () => {
   }, [user, refresh]);
 
   return (
-    <Table headings={["Real Estate ID", "Location", "Surface", "Price", "Sale/Rent", "Type", "Action"]}>
-      {data.map((dataItem, index) => (
+    <>
+      <Table headings={["Real Estate ID", "Location", "Surface", "Price", "Sale/Rent", "Type", "Action"]}>
+        {data.map((dataItem, index) => (
           <RealEstateTableItem key={index} data={dataItem}>
             <td className="px-6 py-4">
               <form action={dataItem.active ?
@@ -92,8 +93,11 @@ const ManageRealEstates: React.FC = () => {
               </form>
             </td>
           </RealEstateTableItem>
-      ))}
-    </Table>
+        ))}
+      </Table>
+      {data.length == 0 && <p className="my-no-content">No content to show</p>}
+    </>
+
   )
 }
 

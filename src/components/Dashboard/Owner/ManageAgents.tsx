@@ -12,13 +12,13 @@ interface Props {
 }
 
 const ManageAgents: React.FC<Props> = ({ agencyId }) => {
-  const {show} = useTopBar();
+  const { show } = useTopBar();
   const { user } = useAuth();
   const [agentId, setAgentId] = useState<number | null>(null);
   const [refreshAfterDelete, setRefreshAfterDelete] = useState<boolean>(false);
   const [data, setData] = useState<Agent[]>([]);
 
-  const submitDeleteAgent = async(event: React.FormEvent<HTMLFormElement>) => {
+  const submitDeleteAgent = async (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
 
     try {
@@ -53,17 +53,20 @@ const ManageAgents: React.FC<Props> = ({ agencyId }) => {
   }, [agencyId, refreshAfterDelete])
 
   return (
-    <Table headings={["User ID", "Username", "Email", "Role", "Action"]}>
-      {data.map((dataItem, index) => (
-        <UserTableItem key={index} data={dataItem}>
-          <td className="px-6 py-4">
-            <form action={API_DELETE_AGENT_PATH} onSubmit={submitDeleteAgent}>
-              <button onClick={() => setAgentId(dataItem.id)} type="submit" className="font-medium text-red-200 hover:underline">Delete</button>
-            </form>
-          </td>
-        </UserTableItem>
-      ))}
-    </Table>
+    <>
+      <Table headings={["User ID", "Username", "Email", "Role", "Action"]}>
+        {data.map((dataItem, index) => (
+          <UserTableItem key={index} data={dataItem}>
+            <td className="px-6 py-4">
+              <form action={API_DELETE_AGENT_PATH} onSubmit={submitDeleteAgent}>
+                <button onClick={() => setAgentId(dataItem.id)} type="submit" className="font-medium text-red-200 hover:underline">Delete</button>
+              </form>
+            </td>
+          </UserTableItem>
+        ))}
+      </Table>
+      {data.length == 0 && <p className="my-no-content">No content to show</p>}
+    </>
   )
 }
 

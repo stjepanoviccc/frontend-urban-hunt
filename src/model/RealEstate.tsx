@@ -18,7 +18,8 @@ type RealEstate = {
     active: boolean,
     agent: Agent,
     agency: Agency,
-    isLiked?: boolean | string
+    isLiked?: boolean | string,
+    numberOfActiveTours?: number | null
 }
 
 export default RealEstate;

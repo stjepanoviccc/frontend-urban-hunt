@@ -16,7 +16,7 @@ const MostPopularAgents: React.FC<Props> = ({ agencyId }) => {
 
   useEffect(() => {
     const fetchPopularAgents = async () => {
-      const response = await axios.get(API_ENDPOINTS.FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID_PATH + "?agencyId=" + agencyId, {
+      const response = await axios.get(API_ENDPOINTS.FIND_MOST_POPULAR_AGENTS_BY_AGENCY_ID + "?agencyId=" + agencyId, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },

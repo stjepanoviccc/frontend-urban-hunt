@@ -30,7 +30,7 @@ const MostPopularRealEstates: React.FC<Props> = ({ agencyId }) => {
 
   return (
     <>
-      <Table headings={["MOST POPULAR", "Location", "Surface", "Price", "Sale/Rent", "Type", "Finished Tours"]}>
+      <Table headings={["MOST POPULAR", "Location", "Surface", "Price", "Sale/Rent", "Type", "Active Tours"]}>
         {data.map((dataItem, index) => (
           <MostPopularRealEstatesTableItem key={index} data={dataItem} />
         ))}

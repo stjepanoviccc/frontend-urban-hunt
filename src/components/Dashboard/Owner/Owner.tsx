@@ -9,7 +9,6 @@ import MostPopularAgents from "./MostPopularAgents";
 import AddNewAgent from "./AddNewAgent";
 import ManageRealEstates from "../AgentAndAdministrator/ManageRealEstates";
 import MostPopularRealEstates from "./MostPopularRealEstates";
-import AddNewRealEstate from "../Agent/AddNewRealEstate";
 import Calendar from "../AgentAndOwner/Calendar";
 
 
@@ -22,7 +21,6 @@ const Owner = () => {
     const [seeCalendarIsActive, setSeeCalendarIsActive] = useState(false);
     const [manageRealEstatesIsActive, setManageRealEstatesIsActive] = useState(false);
     const [seeMostPopularRealEstatesIsActive, setSeeMostPopularRealEstatesIsActive] = useState(false);
-    const [addNewRealEstateIsActive, setAddNewRealEstateIsActive] = useState(false);
 
     const toggleDefineAgency = () => {
         window.location.href = "/dashboard";
@@ -35,7 +33,6 @@ const Owner = () => {
         setSeeCalendarIsActive(false);
         setManageRealEstatesIsActive(false);
         setSeeMostPopularRealEstatesIsActive(false);
-        setAddNewRealEstateIsActive(false);
     }
 
     const toggleMostPopularAgents = () => {
@@ -45,7 +42,7 @@ const Owner = () => {
         setSeeCalendarIsActive(false);
         setManageRealEstatesIsActive(false);
         setSeeMostPopularRealEstatesIsActive(false);
-        setAddNewRealEstateIsActive(false);
+
     }
 
     const toggleAddNewAgent = () => {
@@ -54,7 +51,6 @@ const Owner = () => {
         setSeeMostPopularAgentsIsActive(false);
         setSeeCalendarIsActive(false);
         setManageRealEstatesIsActive(false);
-        setAddNewRealEstateIsActive(false);
         setSeeMostPopularRealEstatesIsActive(false);
     }
 
@@ -65,7 +61,6 @@ const Owner = () => {
         setAddNewAgentIsActive(false);
         setManageRealEstatesIsActive(false);
         setSeeMostPopularRealEstatesIsActive(false);
-        setAddNewRealEstateIsActive(false);
     }
 
     const toggleManageRealEstates = () => {
@@ -75,23 +70,11 @@ const Owner = () => {
         setAddNewAgentIsActive(false);
         setSeeCalendarIsActive(false);
         setSeeMostPopularRealEstatesIsActive(false);
-        setAddNewRealEstateIsActive(false);
-    }
-
-    const toggleAddNewRealEstate = () => {
-        setAddNewRealEstateIsActive(true);
-        setManageAgentsIsActive(false);
-        setSeeMostPopularAgentsIsActive(false);
-        setAddNewAgentIsActive(false);
-        setSeeCalendarIsActive(false);
-        setManageRealEstatesIsActive(false);
-        setSeeMostPopularRealEstatesIsActive(false);
     }
 
     const toggleMostPopularRealEstates = () => {
         setSeeMostPopularRealEstatesIsActive(true);
         setManageRealEstatesIsActive(false);
-        setAddNewRealEstateIsActive(false);
         setSeeCalendarIsActive(false);
         setManageAgentsIsActive(false);
         setSeeMostPopularAgentsIsActive(false);
@@ -126,7 +109,6 @@ const Owner = () => {
                         <button className={`text-lg max-w-[200px] ${addNewAgentIsActive ? "my-link-active" : "my-link"}`} onClick={toggleAddNewAgent}>Add New Agent</button>
                         <button className={`text-lg max-w-[200px] ${manageRealEstatesIsActive ? "my-link-active" : "my-link"}`} onClick={toggleManageRealEstates}>Manage Real Estates</button>
                         <button className={`text-lg max-w-[200px] ${seeMostPopularRealEstatesIsActive ? "my-link-active" : "my-link"}`} onClick={toggleMostPopularRealEstates}>Popular Real Estates</button>
-                        <button className={`text-lg max-w-[200px] ${addNewRealEstateIsActive ? "my-link-active" : "my-link"}`} onClick={toggleAddNewRealEstate}>Add New Real Estate</button>
                         <button className={`text-lg max-w-[200px] ${seeCalendarIsActive ? "my-link-active" : "my-link"}`} onClick={toggleCalendar}>Calendar</button>
                     </>
                 ) : (
@@ -143,7 +125,6 @@ const Owner = () => {
                         {seeCalendarIsActive && <Calendar agencyId={agency?.id} />}
                         {manageRealEstatesIsActive && <ManageRealEstates />}
                         {seeMostPopularRealEstatesIsActive && <MostPopularRealEstates agencyId={agency?.id} />}
-                        {addNewRealEstateIsActive && <AddNewRealEstate agencyId={agency?.id} />}
                     </>
                 ) : (
                     <>

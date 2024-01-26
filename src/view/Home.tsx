@@ -166,6 +166,20 @@ const Home = () => {
     }
   };
 
+  const rentOrBuyRealEstate = async (event: React.FormEvent<HTMLFormElement>, caseString: String, realEstateId: number) => {
+    event.preventDefault();
+    try {
+      await axios.post(API_ENDPOINTS.RENT_OR_BUY_REAL_ESTATE + "?caseString=" + caseString + "&realEstateId=" + realEstateId, {} , {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`
+        },
+      });
+      show("Your transaction has been completed successfully!", "SUCCESS")
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     fetchRealEstates();
   }, [user]);
@@ -230,7 +244,7 @@ const Home = () => {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              <div className="bg-red-600 z-10 text-white absolute top-0 right-0 p-3 rounded-tr-md border-l-2 border-b-2 border-primary rounded-bl-lg">
+              <div className={`${dataItem.transactionType == "RENT" ? "bg-yellow-600" : "bg-red-600"} z-10 text-white absolute top-0 right-0 p-3 rounded-tr-md border-l-2 border-b-2 border-primary rounded-bl-lg"`}>
                 FOR {dataItem.transactionType}
               </div>
               <p className="text-lg pt-2">Location: {dataItem.location}</p>
@@ -248,18 +262,27 @@ const Home = () => {
                 <button type="submit" className="my-ghost-btn ml-4 my-4">Send</button>
               </form>
               {user?.role === "GUEST" && (
-                <div className="border-t-2 border-primary py-2 flex justify-around">
-                  <form onSubmit={(event) => submitSendLike(event, true, dataItem.id)}>
-                    <button className={`${dataItem.isLiked === true ? "border-2 border-primary p-3 rounded-full text-white bg-primary" : "border-2 border-primary p-3 rounded-full"}`}>
-                      <FontAwesomeIcon icon={faThumbsUp} className="pr-2" /> LIKE
-                    </button>
-                  </form>
-                  <form onSubmit={(event) => submitSendLike(event, false, dataItem.id)}>
-                    <button className={`${dataItem.isLiked === false ? "border-2 border-primary p-3 rounded-full text-white bg-primary ml-4" : "border-2 border-primary p-3 rounded-full ml-4"}`}>
-                      <FontAwesomeIcon icon={faThumbsDown} className="pr-2" /> DISS
-                    </button>
-                  </form>
-                </div>
+                <>
+                  <div className="border-t-2 border-primary py-2 flex justify-around">
+                    <form onSubmit={(event) => submitSendLike(event, true, dataItem.id)}>
+                      <button className={`${dataItem.isLiked === true ? "border-2 border-primary p-3 rounded-full text-white bg-primary" : "border-2 border-primary p-3 rounded-full"}`}>
+                        <FontAwesomeIcon icon={faThumbsUp} className="pr-2" /> LIKE
+                      </button>
+                    </form>
+                    <form onSubmit={(event) => submitSendLike(event, false, dataItem.id)}>
+                      <button className={`${dataItem.isLiked === false ? "border-2 border-primary p-3 rounded-full text-white bg-primary ml-4" : "border-2 border-primary p-3 rounded-full ml-4"}`}>
+                        <FontAwesomeIcon icon={faThumbsDown} className="pr-2" /> DISS
+                      </button>
+                    </form>
+                  </div>
+                  <div className="border-t-2 border-primary py-2 flex justify-around">
+                    <form onSubmit={(event) => rentOrBuyRealEstate(event, dataItem.transactionType, dataItem.id)}>
+                      <button className={`border-2 p-3 rounded-full text-white ${dataItem.transactionType == "SALE" ? "bg-red-600 border-red-600" : "bg-yellow-600 border-yellow-600"}`}>
+                        {dataItem.transactionType == "SALE" ? "BUY THIS!" : "RENT THIS!"}
+                      </button>
+                    </form>
+                  </div>
+                </>
               )}
 
             </div>

@@ -8,11 +8,13 @@ export const API_FIND_ALL_REAL_ESTATES_FILTERED_PATH = '/findAllRealEstatesFilte
 export const API_CREATE_TOUR_PATH = '/createTour';
 export const API_SEND_LIKE = '/sendLike';
 export const API_CHECK_IS_LIKED = '/checkIsLiked';
+export const API_RENT_OR_BUY_REAL_ESTATE_PATH = '/guest/rentOrBuyRealEstate'
 // admin
 export const API_DEACTIVATE_USER_PATH = '/admin/deactivateUser';
 export const API_ACTIVATE_USER_PATH = '/admin/activateUser';
 export const API_FIND_ALL_USERS_PATH = '/admin/findAllUsers';
 export const API_CREATE_NEW_OWNER_PATH = '/admin/createNewOwner';
+export const API_GENERATE_REPORT_PATH = '/admin/generateReport';
 // owner
 export const API_FIND_AGENCY_BY_OWNER_ID_PATH = '/owner/findAgencyByOwnerId';
 export const API_FIND_OWNER_BY_ID_PATH = '/owner/findOwnerById';
@@ -48,11 +50,13 @@ export const API_ENDPOINTS = {
   CREATE_TOUR: `${API_BASE_URL}${API_CREATE_TOUR_PATH}`,
   SEND_LIKE: `${API_BASE_URL}${API_SEND_LIKE}`,
   CHECK_IS_LIKED: `${API_BASE_URL}${API_CHECK_IS_LIKED}`,
+  RENT_OR_BUY_REAL_ESTATE: `${API_BASE_URL}${API_RENT_OR_BUY_REAL_ESTATE_PATH}`,
   // admin role
   DEACTIVATE_USER: `${API_BASE_URL}${API_DEACTIVATE_USER_PATH}`,
   ACTIVATE_USER: `${API_BASE_URL}${API_ACTIVATE_USER_PATH}`,
   FIND_ALL_USERS: `${API_BASE_URL}${API_FIND_ALL_USERS_PATH}`,
   CREATE_NEW_OWNER: `${API_BASE_URL}${API_CREATE_NEW_OWNER_PATH}`,
+  GENERATE_REPORT: `${API_BASE_URL}${API_GENERATE_REPORT_PATH}`,
   // owner role
   FIND_OWNER_BY_ID: `${API_BASE_URL}${API_FIND_OWNER_BY_ID_PATH}`,
   FIND_AGENCY: `${API_BASE_URL}${API_FIND_AGENCY_BY_OWNER_ID_PATH}`,

@@ -14,6 +14,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 const Home = () => {
   const [count, setCount] = useState<number>(0);
@@ -42,6 +44,19 @@ const Home = () => {
     setIsFilteringFormActive(prev => !prev);
   };
 
+  const findAgentIdFromToken = async () => {
+    try {
+      const id = await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_TOKEN, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`,
+        },
+      })
+      return id.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const submitCreateTour = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     if (formData.startDate == 1) {
@@ -56,6 +71,16 @@ const Home = () => {
         },
       })
       show("New Tour Has Been Added Successfully!", "SUCCESS");
+
+      const agentNotification = {
+        message: 'New tour order received!'
+      };
+
+      await axios.post(`/sendAgentNotification/${formData.realEstateId}`, agentNotification, {
+        headers: {
+          'Authorization': `Bearer ${user?.accessToken}`,
+        },
+      });
 
     } catch (error) {
       show("You must be logged in to send request for tour.", "NOT");
@@ -169,7 +194,7 @@ const Home = () => {
   const rentOrBuyRealEstate = async (event: React.FormEvent<HTMLFormElement>, caseString: String, realEstateId: number) => {
     event.preventDefault();
     try {
-      await axios.post(API_ENDPOINTS.RENT_OR_BUY_REAL_ESTATE + "?caseString=" + caseString + "&realEstateId=" + realEstateId, {} , {
+      await axios.post(API_ENDPOINTS.RENT_OR_BUY_REAL_ESTATE + "?caseString=" + caseString + "&realEstateId=" + realEstateId, {}, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
@@ -179,6 +204,37 @@ const Home = () => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    const id = findAgentIdFromToken();
+
+    if (user?.role === 'AGENT') {
+      const socket = new WebSocket('ws://localhost:3000/ws');
+      socket.addEventListener('error', (event) => {
+        console.error('WebSocket error:', event);
+      });
+      socket.addEventListener('open', (event) => {
+        console.log('Connected to WebSocket');
+
+        socket.addEventListener('message', (event) => {
+          const messageData = JSON.parse(event.data);
+
+          if (messageData.channel === `/topic/agent/notification/${id}`) {
+            const notification = messageData.message;
+            show(notification, 'SUCCESS');
+          }
+        });
+
+        socket.addEventListener('close', (event) => {
+          console.log('Disconnected from WebSocket');
+        });
+      });
+
+      return () => {
+        socket.close();
+      };
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchRealEstates();

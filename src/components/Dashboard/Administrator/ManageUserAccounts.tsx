@@ -32,6 +32,7 @@ const ManageUserAccounts: React.FC = () => {
       handleRefresh();
       show("User Deactivated Sucessfully!", "SUCCESS");
     } catch (error) {
+      show("This user can't be deactivated.", "NOT");
       console.log(error);
     }
   };

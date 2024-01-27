@@ -14,7 +14,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
-import WebSocketService from '../WebSocketService';
+import WebSocket from "ws";
 
 const Home = () => {
   const [count, setCount] = useState<number>(0);
@@ -44,13 +44,17 @@ const Home = () => {
   };
 
   const findAgentIdFromToken = async () => {
-    if (user?.role == "AGENT") {
-      const id = await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_TOKEN, {
-        headers: {
-          'Authorization': `Bearer ${user?.accessToken}`,
-        },
-      })
-      return id.data;
+    if(user?.role == "AGENT") {
+      try {
+        const id = await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_TOKEN, {
+          headers: {
+            'Authorization': `Bearer ${user?.accessToken}`,
+          },
+        })
+        return id.data;
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -202,32 +206,23 @@ const Home = () => {
   }
 
   useEffect(() => {
-    WebSocketService.connect();
-
-    return () => {
-      WebSocketService.disconnect();
-    };
-  }, []);
-
-  // Subscribe to a specific topic
-  useEffect(() => {
-    const handleCallback = (message: any) => {
-      console.log('Received message:', message.body);
-    };
-
-    WebSocketService.subscribe('/your-topic', handleCallback);
-    return () => {
-      if (WebSocketService.stompClient) {
-        WebSocketService.stompClient.unsubscribe('/your-topic');
+    const id = findAgentIdFromToken(); 
+    if (user?.role === 'AGENT') {
+      const ws = new window.WebSocket("ws://localhost:3000/socket");
+      ws.onopen = () => {
+        console.log('connected');
       }
-    };
-  }, []);
-
-  // Send a message
-  const sendMessage = () => {
-    const message = { content: 'Hello, WebSocket!' };
-    WebSocketService.sendMessage('/your-destination', message);
-  };
+      ws.onmessage = (event) => {
+        console.log('received a message:', event.data);
+      };
+      ws.onclose = () => {
+        console.log('closed');
+      }
+      ws.onerror = (error) => {
+        console.log(error);
+      }
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchRealEstates();

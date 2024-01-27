@@ -14,8 +14,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
+import WebSocketService from '../WebSocketService';
 
 const Home = () => {
   const [count, setCount] = useState<number>(0);
@@ -45,15 +44,13 @@ const Home = () => {
   };
 
   const findAgentIdFromToken = async () => {
-    try {
+    if (user?.role == "AGENT") {
       const id = await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_TOKEN, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`,
         },
       })
       return id.data;
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -184,7 +181,6 @@ const Home = () => {
 
         }
       }
-      console.log(response.data);
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -206,35 +202,32 @@ const Home = () => {
   }
 
   useEffect(() => {
-    const id = findAgentIdFromToken();
+    WebSocketService.connect();
 
-    if (user?.role === 'AGENT') {
-      const socket = new WebSocket('ws://localhost:3000/ws');
-      socket.addEventListener('error', (event) => {
-        console.error('WebSocket error:', event);
-      });
-      socket.addEventListener('open', (event) => {
-        console.log('Connected to WebSocket');
+    return () => {
+      WebSocketService.disconnect();
+    };
+  }, []);
 
-        socket.addEventListener('message', (event) => {
-          const messageData = JSON.parse(event.data);
+  // Subscribe to a specific topic
+  useEffect(() => {
+    const handleCallback = (message: any) => {
+      console.log('Received message:', message.body);
+    };
 
-          if (messageData.channel === `/topic/agent/notification/${id}`) {
-            const notification = messageData.message;
-            show(notification, 'SUCCESS');
-          }
-        });
+    WebSocketService.subscribe('/your-topic', handleCallback);
+    return () => {
+      if (WebSocketService.stompClient) {
+        WebSocketService.stompClient.unsubscribe('/your-topic');
+      }
+    };
+  }, []);
 
-        socket.addEventListener('close', (event) => {
-          console.log('Disconnected from WebSocket');
-        });
-      });
-
-      return () => {
-        socket.close();
-      };
-    }
-  }, [user]);
+  // Send a message
+  const sendMessage = () => {
+    const message = { content: 'Hello, WebSocket!' };
+    WebSocketService.sendMessage('/your-destination', message);
+  };
 
   useEffect(() => {
     fetchRealEstates();

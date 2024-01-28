@@ -14,7 +14,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
-import WebSocket from "ws";
+import useSocketSetup from "../socket/useSocketSetup";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 const Home = () => {
   const [count, setCount] = useState<number>(0);
@@ -44,7 +46,7 @@ const Home = () => {
   };
 
   const findAgentIdFromToken = async () => {
-    if(user?.role == "AGENT") {
+    if (user?.role == "AGENT") {
       try {
         const id = await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_TOKEN, {
           headers: {
@@ -205,10 +207,19 @@ const Home = () => {
     }
   }
 
+
+
+  // jedan nacin
+  useSocketSetup();
+
+
+
+  // drugi nacin
   useEffect(() => {
-    const id = findAgentIdFromToken(); 
+    const id = findAgentIdFromToken();
+    /*
     if (user?.role === 'AGENT') {
-      const ws = new window.WebSocket("ws://localhost:3000/socket");
+      const ws = new window.WebSocket("http://localhost:3000/socket");
       ws.onopen = () => {
         console.log('connected');
       }
@@ -221,8 +232,30 @@ const Home = () => {
       ws.onerror = (error) => {
         console.log(error);
       }
-    }
+    } */
   }, [user]);
+
+
+  /*
+  // TRECI NACIN - global error 
+
+const socket = new SockJS('http://localhost:3000/socket');
+const stompClient = Stomp.over(socket);
+
+stompClient.connect({}, (frame) => {
+    console.log('Connected: ' + frame);
+
+    // Subscribe to the desired topic
+    stompClient.subscribe('/topic/agent/notification/1', (notification) => {
+        console.log('Received notification:', JSON.parse(notification.body));
+    });
+});
+
+// To send a message
+stompClient.send('/app/sendAgentNotification/1', {}, JSON.stringify({
+    // your notification payload
+})); */
+
 
   useEffect(() => {
     fetchRealEstates();

@@ -77,7 +77,7 @@ const App = () => {
       console.log(error);
     }
     
-   console.log(newFormData);
+   handleCloseNotification();
   };
 
   const handleCloseNotification = () => {

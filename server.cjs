@@ -8,8 +8,6 @@ server.on("connection", (ws) => {
     console.log("New client connected !");
     // reply
     ws.on('message', (message) => {
-        console.log("SALJE SE ALI KOJI KKK")
-        console.log(message);
         if (message instanceof Buffer) {
             // Convert the binary data to a string
             const messageString = message.toString();
@@ -30,7 +28,6 @@ server.on("connection", (ws) => {
                     break;
 
                 case "FINISHED_TOUR_RATE_AGENT":
-                    console.log('USLO JE OVDE')
                     const {guestId, realEstateId} = JSON.parse(messageString);
                     sendAgentForRateNotification(id, guestId, realEstateId);
                     break;

@@ -14,9 +14,10 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
-import useSocketSetup from "../socket/useSocketSetup";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
+import io from 'socket.io-client';
+// import useSocketSetup from "../socket/useSocketSetup";
+// import SockJS from "sockjs-client";
+// import Stomp from "stompjs";
 
 const Home = () => {
   const [count, setCount] = useState<number>(0);
@@ -207,16 +208,38 @@ const Home = () => {
     }
   }
 
+  // Ispravan nacin
+  useEffect(() => {
+    const socket = io('http://localhost:3000', {
+      path: '/ws', // Jer ova biblioteka po defaultu nalepi /socket.io -> Sto ste mogli staviti na bekendu umesto ws
+    });
+
+    // TOPIC1 je kljuc na koji osluskujete, obicno vam je 
+    // potrebna odgovarajuca handler funkcija 
+    // npr. server poslao na socket -> NOTIFICATION_TOUR, vi pravite handler 
+    const handleMessage = (data: unknown) => {
+      console.log(data);
+    }
+    socket.on('TOPIC1', (data) => handleMessage(data));
+
+    // Cleanup -> kada se unmountuje komponenta, diskonektuje se sa soketa
+    // Ovaj off mislim da je potreban, inace zna nekad da se desi da se prima duplo poruka
+    // To sam otkucao napamet, svakako cete proveriti kada budete slali poruke
+    return () => {
+      socket.off('TOPIC1', handleMessage);
+      socket.disconnect();
+    };
+  }, []);
 
 
   // jedan nacin
-  useSocketSetup();
+  // useSocketSetup();
 
 
 
   // drugi nacin
-  useEffect(() => {
-    const id = findAgentIdFromToken();
+  // useEffect(() => {
+  //   const id = findAgentIdFromToken();
     /*
     if (user?.role === 'AGENT') {
       const ws = new window.WebSocket("http://localhost:3000/socket");
@@ -233,7 +256,7 @@ const Home = () => {
         console.log(error);
       }
     } */
-  }, [user]);
+  // }, [user]);
 
 
   /*

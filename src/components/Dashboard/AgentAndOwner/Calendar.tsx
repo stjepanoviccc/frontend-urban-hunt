@@ -12,30 +12,37 @@ interface Props {
 const Calendar: React.FC<Props> = ({ agencyId }) => {
   const { user } = useAuth();
   const [data, setData] = useState<any[]>([]);
+  const [trigger, setTrigger] = useState<boolean>(false);
 
-  const submitCalendarAcceptRequest = (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
+  const handleSetTrigger = () => {
+    setTrigger(prev => !prev);
+  }
+
+  const submitCalendarAcceptRequest = async (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
     event.preventDefault();
     console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_ACCEPT_REQUEST + "?tourId=" + tourId, {}, {
+      await axios.post(API_ENDPOINTS.CALENDAR_ACCEPT_REQUEST + "?tourId=" + tourId, {}, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
       });
+      handleSetTrigger();
     } catch (error) {
       console.log("Submitting accept calendar request failed: ", error);
     }
   }
 
-  const submitCalendarDeleteRequest = (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
+  const submitCalendarDeleteRequest = async (event: React.FormEvent<HTMLFormElement>, tourId: number) => {
     event.preventDefault();
     console.log(tourId);
     try {
-      axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST + "?tourId=" + tourId, {}, {
+      await axios.post(API_ENDPOINTS.CALENDAR_DELETE_REQUEST + "?tourId=" + tourId, {}, {
         headers: {
           'Authorization': `Bearer ${user?.accessToken}`
         },
       });
+      handleSetTrigger();
     } catch (error) {
       console.log("Submitting delete calendar request failed: ", error);
     }
@@ -61,7 +68,7 @@ const Calendar: React.FC<Props> = ({ agencyId }) => {
     };
 
     findCalendarById();
-  }, [data]);
+  }, [trigger]);
 
   return (
     <>

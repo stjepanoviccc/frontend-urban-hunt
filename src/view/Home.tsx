@@ -14,9 +14,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { imageBasePath } from "../config/imgConfig";
-import useSocketSetup from "../socket/useSocketSetup";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
+import io from 'socket.io-client';
 
 const Home = () => {
   const [count, setCount] = useState<number>(0);
@@ -45,21 +43,6 @@ const Home = () => {
     setIsFilteringFormActive(prev => !prev);
   };
 
-  const findAgentIdFromToken = async () => {
-    if (user?.role == "AGENT") {
-      try {
-        const id = await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_TOKEN, {
-          headers: {
-            'Authorization': `Bearer ${user?.accessToken}`,
-          },
-        })
-        return id.data;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
-
   const submitCreateTour = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     if (formData.startDate == 1) {
@@ -75,14 +58,20 @@ const Home = () => {
       })
       show("New Tour Has Been Added Successfully!", "SUCCESS");
 
-      const agentNotification = {
-        message: 'New tour order received!'
-      };
+      let id:any;
+      if (user?.role == "GUEST") {
+        const response:any= await axios.get(API_ENDPOINTS.FIND_AGENT_ID_FROM_REAL_ESTATE + "?realEstateId=" + formData.realEstateId, {
+          headers: {
+            'Authorization': `Bearer ${user?.accessToken}`,
+          },
+        })
+        id = response.data[0];
+      }
 
-      await axios.post(`/sendAgentNotification/${formData.realEstateId}`, agentNotification, {
-        headers: {
-          'Authorization': `Bearer ${user?.accessToken}`,
-        },
+      const socket = new WebSocket('ws://localhost:8080');
+      socket.addEventListener('open', (event) => {
+        console.log('WebSocket connection opened after tour submit.');
+        socket.send(JSON.stringify({ type:"GUEST_SUBMIT_TOUR", realEstateId: formData.realEstateId, agentId: id }));
       });
 
     } catch (error) {
@@ -207,56 +196,6 @@ const Home = () => {
     }
   }
 
-
-
-  // jedan nacin
-  useSocketSetup();
-
-
-
-  // drugi nacin
-  useEffect(() => {
-    const id = findAgentIdFromToken();
-    /*
-    if (user?.role === 'AGENT') {
-      const ws = new window.WebSocket("http://localhost:3000/socket");
-      ws.onopen = () => {
-        console.log('connected');
-      }
-      ws.onmessage = (event) => {
-        console.log('received a message:', event.data);
-      };
-      ws.onclose = () => {
-        console.log('closed');
-      }
-      ws.onerror = (error) => {
-        console.log(error);
-      }
-    } */
-  }, [user]);
-
-
-  /*
-  // TRECI NACIN - global error 
-
-const socket = new SockJS('http://localhost:3000/socket');
-const stompClient = Stomp.over(socket);
-
-stompClient.connect({}, (frame) => {
-    console.log('Connected: ' + frame);
-
-    // Subscribe to the desired topic
-    stompClient.subscribe('/topic/agent/notification/1', (notification) => {
-        console.log('Received notification:', JSON.parse(notification.body));
-    });
-});
-
-// To send a message
-stompClient.send('/app/sendAgentNotification/1', {}, JSON.stringify({
-    // your notification payload
-})); */
-
-
   useEffect(() => {
     fetchRealEstates();
   }, [user]);
@@ -361,7 +300,6 @@ stompClient.send('/app/sendAgentNotification/1', {}, JSON.stringify({
                   </div>
                 </>
               )}
-
             </div>
           ))}
         </div>

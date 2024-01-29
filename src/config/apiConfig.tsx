@@ -32,6 +32,7 @@ export const API_FIND_AGENCY_BY_AGENT_ID_PATH = '/agent/findAgencyByAgentId';
 export const API_ADD_NEW_REAL_ESTATE_PATH = '/agent/createRealEstate';
 export const API_EDIT_REAL_ESTATE_PATH = '/agent/editRealEstate';
 export const API_FIND_AGENT_ID_FROM_TOKEN_PATH = '/agent/findAgentIdFromToken';
+export const API_FIND_AGENT_ID_FROM_REAL_ESTATE_ID = '/findAgentIdFromRealEstateId';
 // agent+owner junction
 // export const API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH = '/agentAndOwner/findRealEstatesByAgencyId';
 export const API_CALENDAR_ACCEPT_REQUEST_PATH = '/agentAndOwner/calendarAcceptRequest';
@@ -75,6 +76,7 @@ export const API_ENDPOINTS = {
   EDIT_REAL_ESTATE: `${API_BASE_URL}${API_EDIT_REAL_ESTATE_PATH}`,
   FIND_REAL_ESTATES_BY_AGENT_ID: `${API_BASE_URL}${API_FIND_AGENCY_BY_AGENT_ID_PATH}`,
   FIND_AGENT_ID_FROM_TOKEN: `${API_BASE_URL}${API_FIND_AGENT_ID_FROM_TOKEN_PATH}`,
+  FIND_AGENT_ID_FROM_REAL_ESTATE: `${API_BASE_URL}${API_FIND_AGENT_ID_FROM_REAL_ESTATE_ID}`,
   // agent+owner junction
  // FIND_REAL_ESTATES_BY_AGENCY_ID: `${API_BASE_URL}${API_FIND_REAL_ESTATES_BY_AGENCY_ID_PATH}`,
   CALENDAR_ACCEPT_REQUEST: `${API_BASE_URL}${API_CALENDAR_ACCEPT_REQUEST_PATH}`,

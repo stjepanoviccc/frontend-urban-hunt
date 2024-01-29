@@ -9,6 +9,8 @@ export const API_CREATE_TOUR_PATH = '/createTour';
 export const API_SEND_LIKE = '/sendLike';
 export const API_CHECK_IS_LIKED = '/checkIsLiked';
 export const API_RENT_OR_BUY_REAL_ESTATE_PATH = '/guest/rentOrBuyRealEstate'
+export const API_FIND_GUEST_ID_FROM_TOKEN_PATH = '/guest/findGuestIdFromToken'
+export const API_RATE_AGENT_PATH = '/guest/rateAgent'
 // admin
 export const API_DEACTIVATE_USER_PATH = '/admin/deactivateUser';
 export const API_ACTIVATE_USER_PATH = '/admin/activateUser';
@@ -53,6 +55,8 @@ export const API_ENDPOINTS = {
   SEND_LIKE: `${API_BASE_URL}${API_SEND_LIKE}`,
   CHECK_IS_LIKED: `${API_BASE_URL}${API_CHECK_IS_LIKED}`,
   RENT_OR_BUY_REAL_ESTATE: `${API_BASE_URL}${API_RENT_OR_BUY_REAL_ESTATE_PATH}`,
+  FIND_GUEST_ID_FROM_TOKEN: `${API_BASE_URL}${API_FIND_GUEST_ID_FROM_TOKEN_PATH}`,
+  RATE_AGENT: `${API_BASE_URL}${API_RATE_AGENT_PATH}`,
   // admin role
   DEACTIVATE_USER: `${API_BASE_URL}${API_DEACTIVATE_USER_PATH}`,
   ACTIVATE_USER: `${API_BASE_URL}${API_ACTIVATE_USER_PATH}`,

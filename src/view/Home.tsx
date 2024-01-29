@@ -71,7 +71,7 @@ const Home = () => {
       const socket = new WebSocket('ws://localhost:8080');
       socket.addEventListener('open', (event) => {
         console.log('WebSocket connection opened after tour submit.');
-        socket.send(JSON.stringify({ type:"GUEST_SUBMIT_TOUR", realEstateId: formData.realEstateId, agentId: id }));
+        socket.send(JSON.stringify({ type:"GUEST_SUBMIT_TOUR", realEstateId: formData.realEstateId, id: id }));
       });
 
     } catch (error) {

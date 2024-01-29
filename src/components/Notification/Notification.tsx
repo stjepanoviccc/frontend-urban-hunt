@@ -3,10 +3,10 @@ import Modal from "../UI/Modal"
 
 interface Props {
   closeNotificationModal: () => void;
-  message: any
+  children: any
 }
 
-const Notification: React.FC<Props> = ({ closeNotificationModal, message }) => {
+const Notification: React.FC<Props> = ({ closeNotificationModal, children }) => {
 
   return (
     <Modal>
@@ -22,7 +22,7 @@ const Notification: React.FC<Props> = ({ closeNotificationModal, message }) => {
         </div>
 
         {/* body */}
-        <p className="text-lg">{message}</p>
+        {children}
       </div>
     </Modal>
   )

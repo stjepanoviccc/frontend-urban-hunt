@@ -119,7 +119,7 @@ const Home = () => {
       if (user?.role == "GUEST") {
         for (let item in response.data) {
           let id = response.data[item].id;
-          let isLiked = await axios.get(API_ENDPOINTS.CHECK_IS_LIKED, {
+          let isLiked = await axios.get(API_ENDPOINTS.CHECK_IS_LIKED + "?realEstateId=" + id, {
             headers: {
               'Authorization': `Bearer ${user?.accessToken}`,
               'Content-Type': 'application/json',
